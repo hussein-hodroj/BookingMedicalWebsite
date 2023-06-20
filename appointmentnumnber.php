@@ -1,9 +1,5 @@
 <?php
-// // Database connection
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "bookmycare";
+
 
 $conn=new mysqli('localhost','root','','bookmycare');
 if ($conn->connect_error) {

@@ -1,9 +1,5 @@
 <?php
-// // Database connection
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "bookmycare";
+
 
 $conn=new mysqli('localhost','root','','bookmycare');
 if ($conn->connect_error) {
@@ -17,6 +13,6 @@ $row = $result->fetch_assoc();
 $clinicCount = $row['clinicCount'];
 
 $conn->close();
-echo "". $clinicCount." "."Clinic";
+echo "". $clinicCount." "."Clinics";
 
 ?>
