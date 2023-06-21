@@ -273,6 +273,7 @@ $name = $_SESSION['fullName'];
                         
                     </div> -->
     <div class="container ">
+   <form action="editnewpass.php" method="POST"
       <div class="row m justify-content-center">
         <div class=" card shadow-blue p-3 " style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
           <div class="row g-0 ">
@@ -285,6 +286,12 @@ $name = $_SESSION['fullName'];
                 <!-- <h4 class="card-title">Update Password</h4> -->
 
                 <form id="updatePasswordForm">
+                      <div class="form-group">
+                      <label class="font-weight-bold" for="currentPassword">Email</label>
+      <input type="text" class="form-control form-control-user"for="email"
+                 id="email" name="email" 
+                    placeholder="Your Email">
+                                        </div>
                   <div class="form-group">
                     <label class="font-weight-bold" for="currentPassword">Current Password</label>
                     <input type="password" class="form-control" id="currentPassword"
@@ -293,7 +300,7 @@ $name = $_SESSION['fullName'];
 
                   <div class="form-group">
                     <label class="font-weight-bold" for="newPassword">New Password</label>
-                    <input type="password" class="form-control" id="newPassword" placeholder="Enter your new password">
+                    <input type="password" class="form-control" id="newPassword" name="NewPass" placeholder="Enter your new password">
                   </div>
 
                   <div class="form-group">
@@ -302,7 +309,7 @@ $name = $_SESSION['fullName'];
                       placeholder="Confirm your new password">
                   </div>
                   <div class="d-flex justify-content-end ">
-                    <button type="submit" title="update" class="btn btn-primary " id="editpassword">Update </button>
+                    <button type="submit" name="update" title="update" class="btn btn-primary " id="editpassword">Update </button>
                     
                   </div>
 
@@ -333,7 +340,7 @@ $name = $_SESSION['fullName'];
 
         </div>
         <!-- End of Content Wrapper -->
-
+    </form>
     </div>
     <!-- End of Page Wrapper -->
 
@@ -371,6 +378,17 @@ $name = $_SESSION['fullName'];
                 $(".error-message").remove();
                 $(".is-invalid").removeClass("is-invalid");
     
+
+
+              // Validate Email
+
+                var email = $("#email").val().trim();
+                if (email === "") {
+                    $("#email").addClass("is-invalid");
+                    $("<div class='text-danger error-message'>Please enter the correct email.</div>").insertAfter("#email");
+                }
+
+
                 // Validate current password
                 var currentPassword = $("#currentPassword").val().trim();
                 if (currentPassword === "") {
