@@ -49,7 +49,7 @@ require_once 'connect.php';
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4"><span style="color:#37A3BE;">Welcome Back!</span></h1>
                                     </div>
-                                    <form class="user" action="registrationfolder/signin.php" method="POST" enctype="multipart/form-data">
+                                    <form class="user" action="registrationfolder/signin.php" method="POST" enctype="multipart/form-data" onsubmit = 'return validation();'>
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="example" aria-describedby="emailHelp"
@@ -92,10 +92,9 @@ require_once 'connect.php';
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     <script>
-        /*
-        $(document).ready(function(){
-            $("form.user").submit(function(event) {
-                event.preventDefault(); // Prevent the form from submitting
+         function validation(){
+
+            let isvalid = true;
     
                 // Perform validation
                 var email = $("#example").val();
@@ -108,25 +107,22 @@ require_once 'connect.php';
                 // Validate Email
                 if (email.trim() === "") {
                     $("#example").addClass("is-invalid");
+                    isvalid=false;
                     $("<div class='text-danger error-message'>Please enter your email address.</div>").insertAfter("#example");
                 } else if (!isValidEmail(email)) {
                     $("#example").addClass("is-invalid");
+                    isvalid=false;
                     $("<div class='text-danger error-message'>Please enter a valid email address.</div>").insertAfter("#example");
                 }
     
                 // Validate Password
                 if (password.trim() === "") {
                     $("#password").addClass("is-invalid");
+                    isvalid=false;
                     $("<div class='text-danger error-message'>Please enter your password.</div>").insertAfter("#password");
                 }
     
-                // Check if any errors exist
-                if ($(".error-message").length === 0) {
-                    // Validation successful, perform login action
-                    // Here you can add your own logic to process the login
-                    console.log("Login successful");
-                }
-            });
+            
     
             // Email validation helper function
             function isValidEmail(email) {
@@ -134,7 +130,12 @@ require_once 'connect.php';
                 var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return emailRegex.test(email);
             }
-        }); */
+              if(isvalid)
+        {
+            return true;
+        }
+        return false;
+    }
     </script>
     
 

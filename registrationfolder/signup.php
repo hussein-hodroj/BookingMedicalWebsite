@@ -44,10 +44,10 @@ if (isset($_POST['register'])) {
             
             if ($result->num_rows > 0) {
                 $errors[] = "User already exists.";
-                echo "<script>alert('user already existed; Login your account here');</script>";
-             
+                echo "<script>alert('User already exists. Please login here.'); window.location.href = '../login.php';</script>";
+               
             }
-            
+           
             $stmt->close();
         }
     }
@@ -80,12 +80,34 @@ if (isset($_POST['register'])) {
     }
 
     if (empty($errors)) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        if ($_POST['role'] == 'doctor' && !empty($certificate)) {
+            $certificateName = $_FILES['certificate']['name'];
+            $certificateTmpName = $_FILES['certificate']['tmp_name'];
+            $certificatePath = "certificate_uploads/" . $certificateName;
+    
+            if (move_uploaded_file($certificateTmpName, $certificatePath)) {
+                // File uploaded successfully, update database and set doctor status to 0
+                $stmt = $conn->prepare("INSERT INTO user (fullName, password, email, address, phoneNumber, roleid, certificate, isdoctor, doctorstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $isDoctor = ($_POST['role'] == 'doctor') ? 1 : 0;
+                $doctorStatus = 0;
+                $stmt->bind_param("sssssisii", $fullName, $hashedPassword, $email, $address, $phone, $role, $certificateName, $isDoctor, $doctorStatus);
+                $stmt->execute();
+    
+                $stmt->close();
+                echo "<script>alert('Your registration request has been submitted. Please wait for 10 to 15 days for approval.');window.location.href = '../login.php';</script>";
+
+            } else {
+                $errors[] = "Failed to upload certificate file.";
+            }
+        } else {
       
-      
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         
-        $stmt = $conn->prepare("INSERT INTO user (fullName, password, email, address, phoneNumber, roleid, certificate, isdoctor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO user (fullName, password, email, address, phoneNumber, roleid,  isdoctor) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $isDoctor =($_POST['role'] == 'doctor') ? 1 : 0;
-        $stmt->bind_param("sssssisi", $fullName, $password, $email, $address, $phone, $role, $certificate, $isDoctor);
+        $stmt->bind_param("sssssii", $fullName, $hashedPassword, $email, $address, $phone, $role , $isDoctor);
         $stmt->execute();
 
        
@@ -94,14 +116,14 @@ if (isset($_POST['register'])) {
        
         $_SESSION['registered'] = true;
 
-        /*if ($_POST['role'] == 'doctor') {
-            echo "<script>alert('Please wait for your doctor account to be verified.');</script>";
-        }*/
+        
         
         header("Location: ../login.php");
+          
+       
         exit(); // Terminate the current script
 
-       
+        }
       
        
     }
