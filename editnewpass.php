@@ -9,5 +9,5 @@ if(isset($_POST['update'])){
 $page = "login.php";
 header('Location: '.$page);
 }
-
+// edit new password
 ?>

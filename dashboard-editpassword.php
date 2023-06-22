@@ -2,7 +2,9 @@
 require_once 'connect.php';
 session_start();
 $name = $_SESSION['fullName'];
-?>
+// edit new password
+?>                                   
+
 <!DOCTYPE html>
 <html lang="en">
 
