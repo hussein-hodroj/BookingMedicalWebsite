@@ -2,6 +2,30 @@
 require_once 'connect.php';
 session_start();
 $name = $_SESSION['fullName'];
+$sql = "SELECT id, fullName, address, phoneNumber, email, certificate FROM user WHERE active = 0";
+$stmt = mysqli_prepare($conn, $sql);
+if ($stmt) {
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_bind_result($stmt, $id, $fullName, $address, $phoneNumber, $email, $certificate);
+
+    $users = array();
+    while (mysqli_stmt_fetch($stmt)) {
+        $users[] = array(
+            'id' => $id,
+            'fullName' => $fullName,
+            'address' => $address,
+            'phoneNumber' => $phoneNumber,
+            'email' => $email,
+            'certificate' => 'registrationfolder/certificate_uploads/'.$certificate
+        );
+    }
+
+    mysqli_stmt_close($stmt);
+} else {
+    echo "Error: " . mysqli_error($conn);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -158,6 +182,8 @@ $name = $_SESSION['fullName'];
                         </div>
                     </form-->
                     <h3 class="pt-2">Welcome <?php echo $name;?></h3>
+
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -254,6 +280,7 @@ $name = $_SESSION['fullName'];
         
         <div class="row  d-flex justify-content-center align-items-center">
             <div class="col-lg-12">
+                
                 <table class="table text-center table-striped table-light table-bordered border-primary" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
                     <thead>
                         <tr>
@@ -267,201 +294,81 @@ $name = $_SESSION['fullName'];
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Hasan Sbeity</td>
-                            <td>Nabatieh</td>
-                            <td>03030387</td>
-                            <td>hasan.sb@gmail.com</td>
-                            <td><button title="View" type="button" class="btn btn-outline-primary"   data-bs-toggle="modal" data-bs-target="#view">
-                                <i class="fas fa-image"></i></button></td>
-                            <td> <a href="#" title="Accept" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal">
-                                    <i class="fas fa-check-circle"></i>
-                                </a>
-                                <a href="#" title="reject" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">
-                                    <i class="fas fa-times"></i></a>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Hussein Hodroj</td>
-                            <td>Nabatieh</td>
-                            <td>81622175</td>
-                            <td>hussein.hd@gmail.com</td>
-                            <td><button title="View" type="button" class="btn btn-outline-primary"   data-bs-toggle="modal" data-bs-target="#view">
-                                <i class="fas fa-image"></i></button></td>
-                            <td><a href="#" title="Accept" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal">
-                                    <i class="fas fa-check-circle"></i>
-                                </a>
-                                <a href="#" title="reject" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Joya Estephan</td>
-                            <td>Beirut</td>
-                            <td>03478965</td>
-                            <td>joya.este@gmail.com</td>
-                            <td><button title="View" type="button" class="btn btn-outline-primary"   data-bs-toggle="modal" data-bs-target="#view">
-                                <i class="fas fa-image"></i></button></td>
-                            <td><a href="#" title="Accept" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal">
-                                    <i class="fas fa-check-circle"></i>
-                                </a> 
-                                <a href="#" title="reject" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Nour Chakaroun</td>
-                            <td>Nabatieh</td>
-                            <td>71856971</td>
-                            <td>noor.ch@gmail.com</td>
-                            <td><button title="View" type="button" class="btn btn-outline-primary"   data-bs-toggle="modal" data-bs-target="#view">
-                                <i class="fas fa-image"></i></button></td>
-                            <td><a href="#" title="Accept" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal">
-                                    <i class="fas fa-check-circle"></i>
-                                </a>
-                                <a href="#" title="reject" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Ali Nahle</td>
-                            <td>Nabatieh</td>
-                            <td>71123456</td>
-                            <td>nahle.ali@gmail.com</td>
-                            <td><button title="View" type="button" class="btn btn-outline-primary"   data-bs-toggle="modal" data-bs-target="#view">
-                                <i class="fas fa-image"></i></button></td>
-                            <td><a href="#" title="Accept" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal">
-                                    <i class="fas fa-check-circle"></i>
-                                </a>
-                                <a href="#" title="reject" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>Abdelsalam Mahari</td>
-                            <td>Mount Lebanon</td>
-                            <td>78987654</td>
-                            <td>salamabd.m@gmail.com</td>
-                            <td><button title="View" type="button" class="btn btn-outline-primary"   data-bs-toggle="modal" data-bs-target="#view">
-                                <i class="fas fa-image"></i></button></td>
-                            <td><a href="#" title="Accept" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal">
-                                    <i class="fas fa-check-circle"></i>
-                                </a>
-                                <a href="#" title="reject" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td>Ali mantach</td>
-                            <td>Bequaa</td>
-                            <td>81598147</td>
-                            <td>ali.mn@gmail.com</td>
-                            <td><button title="View" type="button" class="btn btn-outline-primary"   data-bs-toggle="modal" data-bs-target="#view">
-                                <i class="fas fa-image"></i></button></td>
-                            <td><a href="#" title="Accept" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal">
-                                    <i class="fas fa-check-circle"></i>
-                                </a>
-                                <a href="#" title="reject" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>Ali Tarhini</td>
-                            <td>Beirut</td>
-                            <td>78265149</td>
-                            <td>tarhini.a@gmail.com</td>
-                            <td><button title="View" type="button" class="btn btn-outline-primary"   data-bs-toggle="modal" data-bs-target="#view">
-                                <i class="fas fa-image"></i></button></td>
-                            <td><a href="#" title="Accept" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal">
-                                    <i class="fas fa-check-circle"></i>
-                                </a>
-                                <a href="#" title="reject" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
+    <?php foreach ($users as $user) : ?>
+        <tr id="row_<?php echo $user['id']; ?>">
+            <th scope="row"><?php echo $user['id']; ?></th>
+            <td><?php echo $user['fullName']; ?></td>
+            <td><?php echo $user['address']; ?></td>
+            <td><?php echo $user['phoneNumber']; ?></td>
+            <td><?php echo $user['email']; ?></td>
+           
+            <td>
+            <button title="View" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-image="<?php echo $user['certificate']; ?>" data-bs-target="#view">
+                    <i class="fas fa-image" > </i>
+                </button>
+            </td>
+            <td>
+    <form action="admin/drconfirm.php" method="POST">
+        <input type="hidden" name="updateid" value="<?php echo $user ['id']; ?>">
+        <button type="submit" class="btn btn-primary" name="accept" value="accept">Accept</button>
+    </form>
+              
+<a href="#" title="Reject" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm" >
+                    <i class="fas fa-times" ></i>
+                </a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
                 </table>
             </div>
         </div>
-
+        
         <div class="modal fade" id="view" tabindex="-1" aria-labelledby="viewLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="viewLabel">Doctor's Certificate</h5>
-                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="" alt="">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                       
-                    </div>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewLabel">Doctor's Certificate</h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="certificateImage" src="" alt="Doctor's Certificate" style="max-width: 100%; max-height: 500px;" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
-
-        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Accept Doctor</h5>
-                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p> Are You Sure You Want To Accept This Doctor ?!</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Yes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
+</div>
+        
 
         <div class="modal fade" id="modalm" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalmLabel">Reject Doctor's Application </h5>
-                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <label class="form-group"> Please specify the reason for rejection*</label>
-                        <textarea class="form-control" aria-label="With textarea"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalmLabel">Reject Doctor's Application</h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form id="rejectionForm" action="admin/send_rejection_email.php" method="POST">
+    <div class="modal-body">
+        <label class="form-group">Please specify the reason for rejection*</label>
+        <textarea class="form-control" id="rejectionReason" name="rejectionReason" aria-label="With textarea"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id="rejectButton" data-doctorid="<?php echo $user['id']; ?>">Save</button>
+    </div>
+</form>
+
         </div>
+    </div>
+</div>
+
+        
     </div>
     <!-- /.container-fluid -->
 
@@ -491,7 +398,8 @@ $name = $_SESSION['fullName'];
 
 
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
@@ -500,22 +408,26 @@ $name = $_SESSION['fullName'];
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-6wpH4NlYgZp6t0mbrJd9AxSTYceP/KWyfAA9TzQgZyFeEgIf82Cn/qyHjYUewt1/"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-6wpH4NlYgZp6t0mbrJd9AxSTYceP/KWyfAA9TzQgZyFeEgIf82Cn/qyHjYUewt1/"
-            crossorigin="anonymous"></script>
+
+         
+            <script>
+                $('#view').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var certificateImage = button.data('image'); // Extract the certificate image URL from the button
+        var modal = $(this);
+        modal.find('#certificateImage').attr('src', certificateImage); // Set the certificate image source in the modal
+    });
+            
+</script>
+ 
+
+
 </body>
 
 </html>

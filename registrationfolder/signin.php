@@ -39,7 +39,7 @@ if (mysqli_num_rows($result) == 1) {
     $hashedPassword = $row ['password'];
     $roleId = $row['roleid'];
     $name = $row['fullName'];
-    $doctorstatus = $row['doctorstatus'];
+    $active = $row['active'];
     if (password_verify($password,  $hashedPassword)) {
     
     if ($roleId == 1) {
@@ -47,18 +47,14 @@ if (mysqli_num_rows($result) == 1) {
         $_SESSION['fullName'] = $name;
         header("Location: ../dashboard.php");
         exit(); 
-    } elseif ($roleId == 2 && $doctorstatus==1) {
+    } elseif ($roleId == 2 && $active==1) {
         session_start();
         $_SESSION['fullName'] = $name;
         header("Location: ../doctordashboard.php");}
-        else if($roleId == 2 && $doctorstatus==0){
+        else if($roleId == 2 && $active==0){
             echo "<script>alert('Your registration request has been submitted. Please wait for 10 to 15 days for approval.');window.location.href = '../login.php';</script>";
 exit();
         } 
-       
-        
-       
-       
     
     elseif ($roleId == 3) {
         session_start();
