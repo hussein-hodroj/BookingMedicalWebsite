@@ -3,6 +3,7 @@
     
 
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +39,11 @@
 
     <script>
 
+
       /*$(document).ready(function(){
+
+      $(document).ready(function(){
+
 
         // remove fragment as much as it can go without adding an entry in browser history:
         window.location.replace("#");
@@ -51,7 +56,7 @@
               $("a").removeClass("active");
               $(this).addClass("active");
           });
-  */
+
 
   </script>
 </head>
@@ -143,7 +148,11 @@
     <!-- About End -->
 
      <!-- ======= Counts Section ======= -->
+
     <section id="counts" class="counts" action="">
+
+    <section id="counts" class="counts" action="patientnumber.php">
+
       <div class="container">
 
         <div class="row">
@@ -152,20 +161,34 @@
             <div class="count-box">
               <i class="fas fa-user-md"></i> 
               <h5 > 
+
               <?php 
                           include './count_index/doctornumber.php';
                     ?> 
                </h5>     
+
+                    <?php 
+                          include 'doctornumber.php';
+                    ?> 
+              </h5>
+
             </div>
           </div> 
 
           <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
             <div class="count-box">
               <i class="far fa-hospital"></i>
+
               <h5>
               <?php 
                                 include './count_index/clinicnumber.php';
                     ?>  
+
+              <h5 >
+                    <?php 
+                                include 'clinicnumber.php';
+                    ?>
+
               </h5>
             </div>
           </div>
@@ -174,8 +197,13 @@
             <div class="count-box">
               <i class="fas fa-procedures"></i>
               <h5 > 
+
               <?php 
                           include './count_index/patientnumber.php';
+
+                    <?php 
+                          include 'patientnumber.php';
+
                     ?> 
               </h5>
             </div>
@@ -185,9 +213,15 @@
             <div class="count-box">
               <i class="fas fa-laptop-medical"></i>
               <h5 > 
+
               <?php 
                       include './count_index/appointmentnumnber.php';
                     ?>     
+
+                    <?php 
+                          include 'appointmentnumnber.php';
+                    ?> 
+
               </h5>
             </div>
           </div>
@@ -248,9 +282,16 @@
               </div>
       		</div>
       		<div class="col-lg-8  my-4">
+
         
           <!-- action="sendEmail.php"  -->
             <form action="sendemail.php" method="post" role="form" class="php-email-form">
+
+            <!-- contact.php???? -->
+          <!-- <form action="forms/contact.php" method="post" role="form" class="php-email-form"> -->
+          <!-- action="sendEmail.php"  -->
+            <form  method="post" role="form" class="php-email-form">
+
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -265,6 +306,7 @@
               <div class="form-group mt-3">
                 <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
               </div>
+
               <?php
                 if (isset($_GET["msg"])) {
                 $msg = $_GET["msg"];
@@ -273,7 +315,10 @@
               
               <div class="d-flex justify-content-end pt-3">
               
-                  <button type="submit" id="submit" name="submit" class="btn ms-2" style="background-color:#0077b6; color:#fff">Send Message</button>
+                  <button type="submit" id="submit" name="submit" class="btn ms-2" style="background-color:#0077b6; color:#fff">Send Message</button
+              <div class="d-flex justify-content-end pt-3">
+                  <button type="submit" id="submit" class="btn ms-2" style="background-color:#0077b6; color:#fff">Send Message</button>
+
                 </div>
             </form>
 
@@ -283,6 +328,7 @@
       </div>
     </section>
 <!-- End Contact Section -->
+
 <!-- ======= Footer ======= -->
 <!-- <footer class="shadow-lg rounded" style="background-color:#fff;">
 <div class="container-fluid text-light border-top py-4 ">
@@ -296,6 +342,7 @@
     </div>
 </footer> -->
 <!-- ======= End Footer ======= -->
+
  <div class="container-fluid bg-dark text-light">
         <div class="container py-5">
             <div class="row g-6 ms-5">
@@ -335,8 +382,6 @@
             </div>
         </div>
     </div>
-</body>
 
- 
     
 </html>
