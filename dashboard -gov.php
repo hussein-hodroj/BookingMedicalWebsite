@@ -261,13 +261,12 @@ $name = $_SESSION['fullName'];
 
                     <div class="row g-0 ">
                        
-                        <div class="col-12 d-flex justify-content-end align-items-end  pb-3">
-                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#modalh">
-                                <i class="fas fa-plus-square"></i>
-                                Add Gov
-                            </a>
-                        </div>
+                    <div class="col-12 d-flex justify-content-end align-items-end pb-3">
+                        <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#modalh" name="addgov">
+                            <i class="fas fa-plus-square"></i>
+                            Add Gov
+                        </a>
+                    </div>
 
                     </div>
                     <div class="row  d-flex justify-content-center align-items-center">
@@ -280,60 +279,27 @@ $name = $_SESSION['fullName'];
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Nabatieh</td>
-                                        <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modal">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modalm">
-                                                <i class="fas fa-trash-alt"></i></a>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Baalbak</td>
-                                        <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modal">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modalm">
-                                                <i class="fas fa-trash-alt"></i></a>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>North lebanon</td>
-                                        <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modal">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modalm">
-                                                <i class="fas fa-trash-alt"></i></a>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Beirut</td>
-                                        <td><a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modal">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modalm"><i class="fas fa-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-
+                                
+                                <tbody >
+                                <?php
+$sql = "SELECT * FROM `governorate`";
+$result = mysqli_query($conn, $sql);
+if ($result) {
+    $count=0;
+    while ($row = mysqli_fetch_assoc($result)) {
+        $id = $row['id'];
+        $govname = $row['govname'];
+        echo '<tr>
+            <th scope="row">' .++$count. '</th>
+            <td>' . $govname . '</td>
+            <td>
+            <button class="btn btn-primary editbtn" data-id="' . $id . '">Edit</button>
+            <button class="btn btn-danger btnDelete" data-id="' . $id . '">Delete</button>
+            </td>
+        </tr>';
+    }
+}
+?>
 
                                 </tbody>
                             </table>
@@ -349,44 +315,49 @@ $name = $_SESSION['fullName'];
                                         <span aria-hidden="true">&times;</span>
                                     </button>    
                                 </div>
-                                <div class="modal-body ">
+                                
+                                <div class="modal-body">
+                                <form action="addgov.php" method="POST"> <!-- Added form element with action and method attributes -->
                                     <label for="newGovernorate">New Governorate</label>
-                                    <input type="text" class="form-control" id="modalhtext" placeholder="Add gov">
-                                </div>
+                                    <input type="text" name="newgov" class="form-control" id="modalhtext" placeholder="Add gov">
+                                
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" name="saveadd">Save</button> <!-- Changed type to "submit" -->
+                                    </div>
+                                </form>
+                            </div>
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save</button>
-                                </div>
                             </div>
                         </div>
                     </div>
 
 
-                    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                   <!-- Modal for each row -->
+                   <div class="modal fade editmodalopen" id="editModal-<?php echo $id; ?>" tabindex="-1" aria-labelledby="editModalLabel-<?php echo $id; ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLabel">Edit</h5>
+                                    <h5 class="modal-title" id="editModalLabel-<?php echo $id; ?>">Edit</h5>
                                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
-                                    </button>    
                                 </div>
                                 <div class="modal-body">
-                                    <label>Governorate:</label>
-                                    <input type="text" class="form-control" id="modaltext"
-                                        placeholder="edit  Governorate"> 
+                                <form id="editForm-' . $id . '" method="POST" action="editgov.php?editeid=' . $id . '">
+                                        <input type="text" id="txtId" name="txtID" hidden>
+                                        <label>Governorate:</label>
+                                        <input type="text" class="form-control" name="govname">
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" name="saveedite">Save</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!---------------------------- DeleteModal ------------------------------------------->
                     <div class="modal fade" id="modalm" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -400,8 +371,11 @@ $name = $_SESSION['fullName'];
                                     <p> Are You Sure You Want To Delete It ?</p>
                                 </div>
                                 <div class="modal-footer">
+                                    <form action="deletegov.php" method="POST">
+                                    <input type="text" name="txtDel" id="txtDelete" hidden>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                    <button type="button" class="btn btn-primary">Yes</button>
+                                    <button type="submit" name="submit" class="btn btn-primary">Yes</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -439,8 +413,9 @@ $name = $_SESSION['fullName'];
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -449,14 +424,8 @@ $name = $_SESSION['fullName'];
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-6wpH4NlYgZp6t0mbrJd9AxSTYceP/KWyfAA9TzQgZyFeEgIf82Cn/qyHjYUewt1/"
-        crossorigin="anonymous"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 </body>
 <script>
     $(document).ready(function() {
@@ -494,6 +463,26 @@ $name = $_SESSION['fullName'];
 
             // If validation passes, proceed with saving the data
             // ...
+        });
+
+        $('.editbtn').click(function() {
+            var id = $(this).data('id');
+            $("#txtId").val(id);
+            $('.editmodalopen').modal('show');
+        });
+        $('.btnDelete').click(function() {
+            var idDel = $(this).data('id');
+            $("#txtDelete").val(idDel);
+            $('#modalm').modal('show');
+        });
+        $('.btn-close').click(function() {
+            var id = $(this).closest('.modal').attr('id').split('-')[1];
+            // <?php
+            // include 'connect.php';
+            // $sql="SELECT * FROM governorate WHERE id=$id";
+            // $result=mysqli_query($conn,$sql);
+            // ?>
+            $('#editModal-' + id).modal('hide');
         });
     });
 </script>
