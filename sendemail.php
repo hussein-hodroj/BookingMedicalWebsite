@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
                    <p><strong>Message:</strong> $message</p>";
     $mail->isHTML(true);
     if ($mail->send()) {
-        header("Location: http://localhost/BookingMed_testtest/index.php?msg=message has been sent ");
+        header("Location: ./index.php?msg=message has been sent ");
     } else {
         echo "Sorry, an error occurred while sending your message.";
     }
