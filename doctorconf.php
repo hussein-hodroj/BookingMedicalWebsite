@@ -360,17 +360,29 @@ if ($stmt) {
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
         <input type="hidden" id="deleteId" name="deleteId" value="<?php echo $user['id'];?>">
                     <input type="hidden" id="emailInput" name="emailInput" value="<?php echo $user['email'];?>">
                     <button type="submit" class="btn btn-primary" name="submit" id="rejectButton">Save</button>
+
+      
     </div>
-</form>
+
 
         </div>
     </div>
 </div>
-
-        
+<?php
+                                          if (isset($_GET["msg"])) {
+                                            $msg = $_GET["msg"];
+                                            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                        }?>
+                                        <?php
+                                          if (isset($_GET["msgemail"])) {
+                                            $msg = $_GET["msgemail"];
+                                            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                        }?> 
+        </form>
     </div>
     <!-- /.container-fluid -->
 
@@ -425,7 +437,9 @@ if ($stmt) {
         var modal = $(this);
         modal.find('#certificateImage').attr('src', certificateImage); // Set the certificate image source in the modal
     });
-            
+           
+           
+           
 </script>
  
 

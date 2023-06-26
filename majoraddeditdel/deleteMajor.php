@@ -1,8 +1,8 @@
 <?php
 include "../connect.php";
 
-if (isset($_POST["submit"])) {
-   $id = $_POST['idDel'];
+if (isset($_GET["id"])) {
+   $id=$_GET["id"];
    $sql = "DELETE FROM `doctormajor` WHERE id = ?";
    $stmt = mysqli_prepare($conn, $sql);
    mysqli_stmt_bind_param($stmt, "i", $id);

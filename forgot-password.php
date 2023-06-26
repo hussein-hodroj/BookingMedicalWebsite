@@ -24,6 +24,19 @@ include "connect.php";
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+    <script>
+       $(document).ready(function() {
+        $('#successMessage').show();
+          setTimeout(function() {
+            $('#successMessage').hide();
+          }, 3000);
+        });
+    </script>
+
 </head>
 
 <body class="bg-gradient-info">
@@ -57,13 +70,15 @@ include "connect.php";
                                         <?php
                                           if (isset($_GET["msg"])) {
                                             $msg = $_GET["msg"];
-                                            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                            echo '<div id="successMessage" class="alert alert-success mt-2" role="alert">' . $msg . '</div>';
                                         }?>
                                         <?php
                                           if (isset($_GET["msgemail"])) {
                                             $msg = $_GET["msgemail"];
-                                            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                            echo '<div id="successMessage" class="alert alert-danger mt-2" role="alert">' . $msg . '</div>';
                                         }?>
+                                        
+                                        
                                     </form>
                                     <hr>
                                     <div class="text-center">
