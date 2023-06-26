@@ -54,6 +54,19 @@
   */
 
   </script>
+
+<script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+    <script>
+       $(document).ready(function() {
+        $('#successMessage').show();
+          setTimeout(function() {
+            $('#successMessage').hide();
+          }, 4000);
+        });
+    </script>
 </head>
 <body id="home">
 	<!-- Navbar Start -->
@@ -266,10 +279,10 @@
                 <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
               </div>
               <?php
-                if (isset($_GET["msg"])) {
-                $msg = $_GET["msg"];
-                echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-                }?>
+            if (isset($_GET["msg"])) {
+            $msg = $_GET["msg"];
+            echo '<div id="successMessage" class="alert alert-success mt-2" role="alert">' . $msg . '</div>';
+        }?>
               
               <div class="d-flex justify-content-end pt-3">
               

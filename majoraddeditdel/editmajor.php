@@ -2,7 +2,7 @@
 include "../connect.php";
 
 if (isset($_POST["submit"])) {
-   $id = $_POST['idEdt'];
+   $id = $_GET['id'];
    $majorName = $_POST['majorname'];
    $id = filter_var($id, FILTER_VALIDATE_INT);
    $majorName = filter_var($majorName, FILTER_SANITIZE_STRING);
