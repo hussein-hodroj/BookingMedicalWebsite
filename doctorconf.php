@@ -360,9 +360,12 @@ if ($stmt) {
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <input type="hidden" id="deleteId" name="deleteId" value="<?php echo $user['id']?>">
-        <input type="hidden" id="emailInput" name="emailInput" value="<?php echo $user['email']?>">
-        <button type="submit" class="btn btn-primary" name="submit" id="rejectButton">Save</button>                      
+
+        <input type="hidden" id="deleteId" name="deleteId" value="<?php echo $user['id'];?>">
+                    <input type="hidden" id="emailInput" name="emailInput" value="<?php echo $user['email'];?>">
+                    <button type="submit" class="btn btn-primary" name="submit" id="rejectButton">Save</button>
+
+      
     </div>
 
 

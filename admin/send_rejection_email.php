@@ -5,12 +5,12 @@ require '../PHPMailer/src/SMTP.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 if (isset($_POST['submit'])) {
     $email = filter_input(INPUT_POST, 'emailInput', FILTER_SANITIZE_EMAIL);
     if ($email !== false && filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $rejectionReason = $_POST['rejectionReason'];
         sendRejectionEmail($email, $rejectionReason);
-        
         deleteUser($_POST['deleteId']);
         header("Location: ../doctorconf.php?msg=Email has been sent and user has been deleted");
         exit();
