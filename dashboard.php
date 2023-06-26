@@ -1,6 +1,6 @@
 <?php
-require_once 'connect.php';
 session_start();
+require_once 'connect.php';
 $name = $_SESSION['fullName'];
 ?>
 

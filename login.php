@@ -1,4 +1,5 @@
 <?php 
+session_start();
 require_once 'connect.php';
 ?>
 
@@ -31,7 +32,6 @@ require_once 'connect.php';
 <body class="bg-gradient-info">
 
     <div class="container">
-
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
@@ -57,7 +57,7 @@ require_once 'connect.php';
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="password" placeholder="Password" name="password">
+                                                id="password" placeholder="Password" name="user_password">
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block" id="login" name="login">
                                             Login
@@ -79,7 +79,7 @@ require_once 'connect.php';
             </div>
 
         </div>
-
+    
     </div>
 
     <!-- Bootstrap core JavaScript-->
