@@ -2,7 +2,34 @@
 require_once 'connect.php';
 session_start();
 $name = $_SESSION['fullName'];
+
+$sql = "SELECT u.id, u.fullName AS patient, d.fullName AS doctor, f.feedback
+        FROM feedback AS f
+        JOIN user AS u ON u.id = f.patientid
+        JOIN user AS d ON d.id = f.doctorid";
+
+$stmt = mysqli_prepare($conn, $sql);
+if ($stmt) {
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $id, $patient, $doctor, $feedback);
+
+    $feedbacks = array();
+    while (mysqli_stmt_fetch($stmt)) {
+        $feedbacks[] = array(
+            'id' => $id,
+            'patient' => $patient,
+            'doctor' => $doctor,
+            'feedback' => $feedback
+        );
+    }
+
+    mysqli_stmt_close($stmt);
+} else {
+    echo "Error: " . mysqli_error($conn);
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -261,6 +288,9 @@ $name = $_SESSION['fullName'];
                 
                     <div class="row  justify-content-center">
                         <div class="col-lg-12">
+                        <form id="deletefeedback" action="admin/deletefeedback.php" method="POST">
+                            <div id="alertcol">
+                            </div>
                             <table class="table text-center table-striped table-light  table-bordered" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
                                 <thead>
                                     <tr class="table-primary">
@@ -273,57 +303,19 @@ $name = $_SESSION['fullName'];
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php foreach ($feedbacks as $feedback) : ?>
                                     <tr >
-                                        <th scope="row "style="vertical-align: middle;">1</th>
-                                          <td class="text-center " style="vertical-align: middle;"> <b> Zahraa</b></td>
-                                            <td class="text-center " style="vertical-align: middle;"><b> Nour</b></td>
-                                            <td class="text-justify " style="width: 350px;">Dr. Nour is an outstanding doctor. She takes the time to listen to his patients and shows compassion and care.</td>
+                                        <th scope="row "style="vertical-align: middle;"><?php echo $feedback['id']?></th>
+                                          <td class="text-center " style="vertical-align: middle;"><?php echo $feedback['doctor']?></td>
+                                            <td class="text-center " style="vertical-align: middle;"><?php echo $feedback['patient']?></td>
+                                            <td class="text-justify " style="width: 350px;"><?php echo $feedback['feedback']?></td>
                                             <td style="vertical-align: middle;">
                                             <a href="#" title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modalm"><i class="fas fa-trash-alt "></i></a>
+                                                data-bs-target="#modalm" data-id="<?php echo $feedback['id']; ?>"><i class="fas fa-trash-alt "></i></a>
             
                                             </td>
-                                          
-                                    </tr>
-                                    <tr class="table-primary">
-                                        <th scope="row "style="vertical-align: middle;">2</th>
-                                          <td class="text-center " style="vertical-align: middle;"><b>Micheal</b></td>
-                                            <td class="text-center " style="vertical-align: middle;"><b>Hussein</b></td>
-                                            <td class="text-justify " style="width: 350px;">I wouldn't recommend Dr Hussein. I found him to be rude as he lectured me about my lifestyle instead of listening to my concerns.</td>
-                                            <td style="vertical-align: middle;">
-                                            <a href="#" title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modalm"><i class="fas fa-trash-alt"></i></a>
-            
-                                            </td>
-                                          
-                                    </tr>
-                                    
-                                    <tr>
-                                        <th scope="row " style="vertical-align: middle;">3</th>
-                                          <td class="text-center " style="vertical-align: middle;"><b>Omar</b></td>
-                                            <td class="text-center " style="vertical-align: middle;"><b>Joya</b></td>
-                                            <td class="text-justify " style="width: 350px;">I highly recommend Dr.Joya. She is skilled and caring doctor who keeps up with latest research to ensure his patients receive the best treatment.</td>
-                                            <td style="vertical-align: middle;">
-                                            <a href="#" title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modalm"><i class="fas fa-trash-alt"></i></a>
-            
-                                            </td>
-                                          
-                                    </tr>
-            
-            
-                                    <tr class="table-primary">
-                                        <th scope="row" style="vertical-align: middle;">4</th>
-                                          <td class="text-center " style="vertical-align: middle;"><b> Rose</b></td>
-                                            <td class="text-center" style="vertical-align: middle;"><b>Hassan</b></td>
-                                            <td class="text-justify " style="width: 350px;">I had a terrible experience with Dr.Hassan He misdiagnosed my condition and prescribed the wrong medicine. I felt he was rushing through the appointment rather than listening to my concerns</td>
-                                            <td style="vertical-align: middle;">
-                                            <a href="#" title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                                data-bs-target="#modalm"><i class="fas fa-trash-alt"></i></a>
-            
-                                            </td>
-                                          
-                                    </tr>
+                                </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -340,17 +332,19 @@ $name = $_SESSION['fullName'];
                                     <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>  
-                                                                </div>
+                                </div>
                                 <div class="modal-body">
                                     <p> Are You Sure You Want To Delete It ?</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                    <button type="button" class="btn btn-primary">Yes</button>
+                                    <input type="hidden" id="deleteId" name="deleteId" value="<?php echo $feedback['id'];?>">
+                                    <button type="submit" class="btn btn-primary" name="submit" id="delete">Yes</button>
                                 </div>
                             </div>
                         </div>
-
+                        
+                                </form>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -396,6 +390,8 @@ $name = $_SESSION['fullName'];
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
 
+
+    
 </body>
 
 </html>

@@ -313,9 +313,9 @@ if ($stmt) {
         <button type="submit" class="btn btn-primary" name="accept" value="accept">Accept</button>
     </form>
               
-<a href="#" title="Reject" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm" >
-                    <i class="fas fa-times" ></i>
-                </a>
+    <a href="#" title="Reject" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm" data-email="<?php echo $user['email']; ?>">
+    <i class="fas fa-times"></i>
+</a>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -360,7 +360,9 @@ if ($stmt) {
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" id="rejectButton" data-doctorid="<?php echo $user['id']; ?>">Save</button>
+        <input type="hidden" id="deleteId" name="deleteId" value="<?php echo $user['id'];?>">
+                    <input type="hidden" id="emailInput" name="emailInput" value="<?php echo $user['email'];?>">
+                    <button type="submit" class="btn btn-primary" name="submit" id="rejectButton">Save</button>
     </div>
 </form>
 
