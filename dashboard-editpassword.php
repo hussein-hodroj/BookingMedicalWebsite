@@ -1,8 +1,12 @@
 <?php
-require_once 'connect.php';
 session_start();
-$name = $_SESSION['fullName'];
-// edit new password
+require_once 'connect.php';
+
+if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
+
+
+}
+
 ?>                                   
 
 <!DOCTYPE html>
@@ -175,7 +179,7 @@ $name = $_SESSION['fullName'];
                             </div>
                         </div>
                     </form> -->
-                    <h3>Welcome <?php echo $name;?></h3>
+                    <h3>Welcome </h3>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -275,7 +279,7 @@ $name = $_SESSION['fullName'];
                         
                     </div> -->
     <div class="container ">
-   <form action="editnewpass.php" method="POST"
+  
       <div class="row m justify-content-center">
         <div class=" card shadow-blue p-3 " style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
           <div class="row g-0 ">
@@ -287,27 +291,22 @@ $name = $_SESSION['fullName'];
               <div class="p-5">
                 <!-- <h4 class="card-title">Update Password</h4> -->
 
-                <form id="updatePasswordForm">
-                      <div class="form-group">
-                      <label class="font-weight-bold" for="currentPassword">Email</label>
-      <input type="text" class="form-control form-control-user"for="email"
-                 id="email" name="email" 
-                    placeholder="Your Email">
-                                        </div>
+                <form id="updatePasswordForm" action="./admin editpassword/editPassword.php" method="POST">
+                 
                   <div class="form-group">
                     <label class="font-weight-bold" for="currentPassword">Current Password</label>
-                    <input type="password" class="form-control" id="currentPassword"
+                    <input type="password" class="form-control" id="currentPassword" name="oldPassword"
                       placeholder="Enter your current password">
                   </div>
 
                   <div class="form-group">
                     <label class="font-weight-bold" for="newPassword">New Password</label>
-                    <input type="password" class="form-control" id="newPassword" name="NewPass" placeholder="Enter your new password">
+                    <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter your new password">
                   </div>
 
                   <div class="form-group">
                     <label class="font-weight-bold" for="confirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirmPassword"
+                    <input type="password" class="form-control" id="confirmPassword" name="c_newPassword"
                       placeholder="Confirm your new password">
                   </div>
                   <div class="d-flex justify-content-end ">
@@ -371,7 +370,7 @@ $name = $_SESSION['fullName'];
 
     <!-- ... your HTML code ... -->
 
-    <script>
+    <!-- <script>/*
         $(document).ready(function() {
             $("#updatePasswordForm").submit(function(event) {
                 event.preventDefault(); // Prevent the form from submitting
@@ -430,8 +429,8 @@ if (newPassword === "") {
                     location.reload();
                 }
             });
-        });
-    </script>
+        });*/
+    </script> -->
     
     
     
