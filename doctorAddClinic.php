@@ -1,6 +1,7 @@
 <?php
 require_once 'connect.php';
 session_start();
+$id = $_SESSION['id'];
 $name = $_SESSION['fullName'];
 ?>
 <!DOCTYPE html>
@@ -32,6 +33,7 @@ $name = $_SESSION['fullName'];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        /*
          $(document).ready(function() {
     $("#reqClinicName").hide();
     $("#reqClinicPhone").hide();
@@ -92,7 +94,7 @@ $name = $_SESSION['fullName'];
         }
     });
 });
-  
+  /*
 
 
     </script>
@@ -309,14 +311,14 @@ $name = $_SESSION['fullName'];
               <div class="col">
 
                   <div class="card my-3 " style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245) ">
-                     <h3 class="text-primary" style="padding-top:2%; padding-left: 2%; ">Clinic 2</h3>
+                     <h3 class="text-primary" style="padding-top:2%; padding-left: 2%;" name ="clinic"></h3>
                       <div class="row g-0">
                           <div class="col-lg-6 ">
                              <div class="px-4">
                                 <div class="mb-4">
+                                <form id="addForm" action="doctor/addclinic.php" method="POST">
                                     <label class="form-label">Clinic Name</label>
-                                    <input type="text" placeholder="please enter full name" class="form-control" id="txtName" />
-                                    <span class="text-danger" id="reqClinicName">please enter clinic name</span>
+                                    <input type="text" name="name" placeholder="please enter full name" class="form-control" id="txtName" />
                                 </div>
                                 </div>
                                 </div>
@@ -324,59 +326,66 @@ $name = $_SESSION['fullName'];
                                     <div class="px-4">
                                 <div class="mb-4">
                                     <label class="form-label">Clinic Phone Number</label>
-                                    <input type="text" placeholder="please enter your phone" class="form-control" id="txtPhone" />
-                                    <span class="text-danger" id="reqClinicPhone">please enter clinic phone number</span>
+                                    <input type="text" name="phone" placeholder="please enter your phone" class="form-control" id="txtPhone" />
                                 </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row g-0">
-                        <div class="col-lg-6 ">
-                            <div class="px-4">
-                                <div class="mb-4">
-                                    <label class="form-group">GOVERNORATE</label>
-                                    <select class="form-control" id="txtGov">
-                                        <option value="" selected hidden>please select Governorate</option>
-                                        <option value="Akkar">Akkar</option>
-                                        <option value="BaalbeckHermel">Baalbeck-Hermel</option>
-                                        <option value="Beirut">Beirut</option>
-                                        <option value="Bekaa">Bekaa</option>
-                                        <option value="MountLebanon">Mount Lebanon</option>
-                                        <option value="NorthLebanon">North Lebanon</option>
-                                        <option value="Nabatiyeh">Nabatiyeh</option>
-                                        <option value="SouthLebanon">South Lebanon</option>
-                                    </select>
-                                    <span class="text-danger" id="reqClinicGov">please select the governorate</span>
-                                </div>
-                                </div>
-                                </div>
-                                <div class="col-lg-6 ">
-                                    <div class="px-4">
-                                <div class="mb-4">
-                                    <label class="form-group">MAJOR</label>
-                                    <select class="form-control" id="txtMajor">
-                                        <option value="" selected hidden>please select Major</option>
-                                        <option value="Dentist">Dentist</option>
-                                        <option value="Dietitian">Dietitian</option>
-                                        <option value="Surgeon">Surgeon</option>
-                                        <option value="Cardiologist">Cardiologist</option>
-                                        <option value="Neurologist">Neurologist</option>
-                                        <option value="Cosmetic">Cosmetic</option>
-                                        <option value="PublicHealth">Public Health</option>
-                                        <option value="Gynecologist">Gynecologist</option>
-                                    </select>
-                                    <span class="text-danger" id="reqClinicMajor">please select the major</span>
-                                </div>
-                                </div>
-                                </div>
-                        </div>
+                        <div class="row">
+    <div class="col-lg-6">
+        <div class="px-4">
+            <div class="mb-4">
+                <label class="form-group">GOVERNORATE</label>
+                <select class="form-control" id="txtGov" name="governorate">
+                    <?php
+                    // Fetch governorate names from the governorate table
+                    $governorateQuery = "SELECT id, govname FROM governorate";
+                    $governorateResult = mysqli_query($conn, $governorateQuery);
+                    if ($governorateResult && mysqli_num_rows($governorateResult) > 0) {
+                        while ($govRow = mysqli_fetch_assoc($governorateResult)) {
+                            $govid = $govRow['id'];
+                            $govname = $govRow['govname'];
+                            echo "<option value='$govid'>$govname</option>";
+                        }
+                    } else {
+                        echo "<option disabled selected>This governorate does not exist</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="px-4">
+            <div class="mb-4">
+                <label class="form-group">MAJOR</label>
+                <select class="form-control" id="txtMajor" name="major">
+                    <?php
+                    // Fetch major names from the doctormajor table
+                    $majorQuery = "SELECT id, majorName FROM doctormajor";
+                    $majorResult = mysqli_query($conn, $majorQuery);
+                    if ($majorResult && mysqli_num_rows($majorResult) > 0) {
+                        while ($majorRow = mysqli_fetch_assoc($majorResult)) {
+                            $majorid = $majorRow['id'];
+                            $majorName = $majorRow['majorName'];
+                            echo "<option value='$majorid'>$majorName</option>";
+                        }
+                    } else {
+                        echo "<option disabled selected>This major does not exist</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="px-4">
                             <div class="mb-4">
                                 <label class="form-label">FULL ADDRESS</label>
-                                <input type="text" placeholder="please enter your address" class="form-control" id="txtAddress" >
-                                <span class="text-danger" id="reqClinicAddress">please enter full address</span>
+                                <input type="text" placeholder="please enter your address" class="form-control" id="txtAddress" name="address">
                             </div>
                             </div>
                         </div>
@@ -392,109 +401,48 @@ $name = $_SESSION['fullName'];
                            </div>
                         </div>
                         
-                            <div class="row">
-                                <div class="col-12">
-
-                                    <div class="row px-4">
-                                        <div class="col-4 ">
-                                            <label class="form-label">Monday</label>
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">From</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                        <div class="col-4 " style="padding-left: 40px;">
-                                            <label class="form-label">To</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                    </div>
-                                    <div class="row px-4">
-                                        <div class="col-4">
-                                            <label class="form-label">Tuesday</label>
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">From</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">To</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                    </div>
-                                    <div class="row px-4">
-                                        <div class="col-4">
-                                            <label class="form-label">Wednesday</label>
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">From</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">To</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                    </div>
-                                    <div class="row px-4">
-                                        <div class="col-4">
-                                            <label class="form-label">Thursday</label>
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">From</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">To</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                    </div>
-                                    <div class="row px-4">
-                                        <div class="col-4">
-                                            <label class="form-label">Friday</label>
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">From</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">To</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                    </div>
-                                    <div class="row px-4">
-                                        <div class="col-4">
-                                            <label class="form-label">Saturday</label>
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">From</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">To</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                    </div>
-                                    <div class="row px-4">
-                                        <div class="col-4">
-                                            <label class="form-label">Sunday</label>
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">From</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                        <div class="col-4" style="padding-left: 40px;">
-                                            <label class="form-label">To</label>
-                                            <input type="time" class="form-control" id="time">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-lg-12">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dynamic_field">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php for ($i = 1; $i <= 5; $i++): ?>
+                <tr>
+                    <td>
+                        <select class="form-control" name="day<?php echo $i; ?>">
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="time" class="form-control" name="start<?php echo $i; ?>" required>
+                    </td>
+                    <td>
+                        <input type="time" class="form-control" name="end<?php echo $i; ?>" required>
+                    </td>
+                </tr>
+                <?php endfor; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
                             <div class="d-flex justify-content-end py-4 me-2">
                                
-                                    <button type="submit" id="submit" class="btn btn-primary ">Save changes</button></a>
+                                    <button type="submit" id="submit" name="submit" class="btn btn-primary ">Save changes</button></a>
                             </div>
                     </div>
                 </div>
             </div>
+</form>
         </div>
     </div>
     </div>

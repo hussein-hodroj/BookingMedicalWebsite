@@ -1,11 +1,11 @@
 <?php 
-session_start();
 require_once '../connect.php';
 
 if(isset ($_POST["login"])){
 
     $email=$_POST["email"];
-    $password=$_POST["user_password"];
+    $password=$_POST["password"];
+
     $errors = array();
 
     if (empty($email)) {
@@ -38,45 +38,39 @@ if (mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_assoc($result);
     $hashedPassword = $row ['password'];
     $roleId = $row['roleid'];
+    $id = $row['id'];
     $name = $row['fullName'];
     $active = $row['active'];
     if (password_verify($password,  $hashedPassword)) {
-    // if($password == $hashedPassword){    
+    
     if ($roleId == 1) {
+        session_start();
+        $_SESSION['id'] = $id;
         $_SESSION['fullName'] = $name;
-        $_SESSION['email'] = $email;
-        $_SESSION['user_pass'] = $password;
         header("Location: ../dashboard.php");
         exit(); 
-
- 
-
     } elseif ($roleId == 2 && $active==1) {
         session_start();
-
+        $_SESSION['id'] = $id;
         $_SESSION['fullName'] = $name;
-        $_SESSION['email'] = $email;
-        $_SESSION['user_pass'] = $password;
         header("Location: ../doctordashboard.php");}
         else if($roleId == 2 && $active==0){
             echo "<script>alert('Your registration request has been submitted. Please wait for 10 to 15 days for approval.');window.location.href = '../login.php';</script>";
 exit();
         } 
-
+    
     elseif ($roleId == 3) {
+        session_start();
+        $_SESSION['id'] = $id;
         $_SESSION['fullName'] = $name;
         header("Location: ../dashboardPatient.php");
         exit(); 
     } 
     } else {
-        echo "<script>alert('Incorrect password'); 
-        //window.location.href = '../login.php';
-        </script>";
+        echo "<script>alert('Incorrect password'); window.location.href = '../login.php';</script>";
     }
     } else {
-    echo "<script>alert('Incorrect email'); 
-    //window.location.href = '../login.php';
-    </script>";
+    echo "<script>alert('Incorrect email'); window.location.href = '../login.php';</script>";
 }
 
 } 
