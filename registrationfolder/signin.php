@@ -38,17 +38,20 @@ if (mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_assoc($result);
     $hashedPassword = $row ['password'];
     $roleId = $row['roleid'];
+    $id = $row['id'];
     $name = $row['fullName'];
     $active = $row['active'];
     if (password_verify($password,  $hashedPassword)) {
     
     if ($roleId == 1) {
         session_start();
+        $_SESSION['id'] = $id;
         $_SESSION['fullName'] = $name;
         header("Location: ../dashboard.php");
         exit(); 
     } elseif ($roleId == 2 && $active==1) {
         session_start();
+        $_SESSION['id'] = $id;
         $_SESSION['fullName'] = $name;
         header("Location: ../doctordashboard.php");}
         else if($roleId == 2 && $active==0){
@@ -58,6 +61,7 @@ exit();
     
     elseif ($roleId == 3) {
         session_start();
+        $_SESSION['id'] = $id;
         $_SESSION['fullName'] = $name;
         header("Location: ../dashboardPatient.php");
         exit(); 

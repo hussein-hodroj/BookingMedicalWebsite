@@ -2,7 +2,38 @@
 require_once 'connect.php';
 session_start();
 $name = $_SESSION['fullName'];
+
+$sql = "SELECT b.id, b.patId AS patientId, u.fullName AS patientName,u.email, g.govname AS govName, u.address, b.booking 
+        FROM booking AS b 
+        JOIN user AS u ON u.id = b.patId 
+        JOIN clinic AS c ON b.clinicId = c.id
+        JOIN governorate AS g ON g.id = c.clinicGovid 
+        WHERE b.statuss = 'pending'";
+
+$stmt = mysqli_prepare($conn, $sql);
+if ($stmt) {
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $id,$patientId, $patientName,$email, $govName, $address, $booking);
+    
+    $bookings = array();
+    
+    while (mysqli_stmt_fetch($stmt)) {
+        $bookings[] = array(
+            'id' => $id,
+            'patientName' => $patientName,
+            'email' => $email,
+            'govName' => $govName,
+            'address' => $address,
+            'booking' => $booking   
+        );
+    }
+
+    mysqli_stmt_close($stmt);
+} else {
+    echo "Error: " . mysqli_error($conn);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -259,139 +290,39 @@ $name = $_SESSION['fullName'];
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Patient's Name</th>
+                            <th scope="col">Patient's Email</th>
                             <th scope="col">Governorate</th>
                             <th scope="col">Address</th>
-                            <th scope="col">Date</th>
+                            <th scope="col">Date and Time</th>
+                            
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($bookings as $booking) : ?> 
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Hasan Sbeity</td>
-                            <td>Nabatieh</td>
-                            <td>Kafarsir</td>
-                            <td>08/06/2023</td>
+                            <th scope="row"><?php echo $booking['id'];?></th>
+                            <td><?php echo $booking['patientName'];?></td>
+                            <td><?php echo $booking['email'];?></td>
+                            <td><?php echo $booking['govName'];?></td>
+                            <td><?php echo $booking['address'];?></td>
+                            <td><?php echo $booking['booking'];?></td>
 
                             <td> 
                                 <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalj">
+                                    data-bs-target="#modalj"  data-email="<?php echo $booking['email'];?>"
+                                    data-id="<?php echo $booking ['id']; ?>">
                                     <i class="fas fa-check"></i>
                                 </a>
                                
                                 <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                 data-bs-target="#modalm">
+                                 data-bs-target="#modalm"  data-id="<?php echo $booking['id']; ?>" 
+                                 data-email="<?php echo $booking['email'];?>">
                                     <i class="fas fa-trash-alt"></i></a>
                             </td>
 
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Hussein Hodroj</td>
-                            <td>Nabatieh</td>
-                            <td>Habboush</td>
-                            <td>20/06/2023</td>
-                            <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#modalj">
-                                <i class="fas fa-check"></i>
-                            </a>
-                                
-                                <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">  <i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Joya Estephan</td>
-                            <td>Beirut</td>
-                            <td>Sen El Fil</td>
-                            <td>01/07/2023</td>
-                            <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#modalj">
-                                <i class="fas fa-check"></i>
-                            </a>
-
-                                
-                                <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">  <i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Nour Chakaroun</td>
-                            <td>Nabatieh</td>
-                            <td>Kafaromen</td>
-                            <td>14/07/2023</td>
-                            <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#modalj">
-                                <i class="fas fa-check"></i>
-                            </a>
-
-                                
-                                <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">  <i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Ali Nahle</td>
-                            <td>Nabatieh</td>
-                            <td>Kafarjouz</td>
-                            <td>18/07/2023</td>
-                            <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#modalj">
-                                <i class="fas fa-check"></i>
-                            </a>
-                                
-                                <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">  <i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>Abdelsalam Mahari</td>
-                            <td>Mount Lebanon</td>
-                            <td>Koura</td>
-                            <td>04/08/2023</td>
-                            <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#modalj">
-                                <i class="fas fa-check"></i>
-                            </a>
-                               
-                                <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">  <i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td>Ali mantach</td>
-                            <td>Bequaa</td>
-                            <td>Baalbek</td>
-                            <td>08/08/2023</td>
-                            <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#modalj">
-                                <i class="fas fa-check"></i>
-                            </a>
-                               
-                                <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">  <i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>Ali Tarhini</td>
-                            <td>Beirut</td>
-                            <td>Al Hamra</td>
-                            <td>18/08/2023</td>
-                            <td> <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#modalj">
-                                <i class="fas fa-check"></i>
-                            </a>
-                            
-                                <a href="#" class="btn bg-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">  <i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -404,18 +335,33 @@ $name = $_SESSION['fullName'];
                         <h5 class="modal-title" id="modalLabel">Accept Appointment</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <form id="acceptForm" action="doctor/confirmationbook.php" method="POST">
                     <div class="modal-body">
-                        <p> Send Reminder E-mail </p>
+                    <label class="form-group">Please specify the reason for rejection*</label>
+                    <textarea class="form-control" id="reminder" name="reminder" aria-label="With textarea"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" 
-                         data-bs-dismiss="modal"> Close</button>
-                        <button type="button" class="btn btn-primary">Send</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close</button>
+                        <input type="hidden" name="updateid" value="<?php echo $booking ['id']; ?>">
+                        <input type="hidden" id="emailInput" name="emailInput" value="<?php echo $booking['email'];?>">
+                        <button type="submit" class="btn btn-primary" name="submit" id="send">Send</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
-
+        <?php
+                                          if (isset($_GET["msg"])) {
+                                            $msg = $_GET["msg"];
+                                            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                        }?>
+                                        <?php
+                                          if (isset($_GET["msgemail"])) {
+                                            $msg = $_GET["msgemail"];
+                                            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                        }?> 
+                        
+                                    
         <div class="modal fade" id="modalm" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -423,18 +369,23 @@ $name = $_SESSION['fullName'];
                         <h5 class="modal-title" id="modalmLabel">Reject Appointment</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <form id="rejectForm" action="doctor/bookreject.php" method="POST">
                     <div class="modal-body">
                         <label class="form-group"> Reason For Rejecting This Appointment</label>
-                        <textarea class="form-control" id="rejectText" aria-label="With textarea"></textarea>
+                        <textarea class="form-control" name="reject" id="rejectText" aria-label="With textarea"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Send</button>
+                        <input type="hidden" name="updateid" value="<?php echo $booking ['id']; ?>">
+                        <input type="hidden" id="emailInput" name="emailInput" value="<?php echo $booking['email'];?>">
+                        <button type="submit" class="btn btn-primary" name="submit" id="send">Send</button>
+                        
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
-
+                        
 
        
         
