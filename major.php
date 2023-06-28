@@ -1,7 +1,5 @@
-<?php
-require_once 'connect.php';
-session_start();
-$name = $_SESSION['fullName'];
+<?php  
+include "connect.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +14,7 @@ $name = $_SESSION['fullName'];
     <title>BookMyCare</title>
     <!-- Favicon -->
     <link href="img/logo.png" rel="icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -26,6 +25,18 @@ $name = $_SESSION['fullName'];
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+    <script>
+       $(document).ready(function() {
+        $('#successMessage').show();
+          setTimeout(function() {
+            $('#successMessage').hide();
+          }, 3000);
+        });
+    </script>
 
 </head>
 
@@ -50,7 +61,7 @@ $name = $_SESSION['fullName'];
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="dashboard.php">
+                <a class="nav-link" href="dashboard.html">
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -65,14 +76,14 @@ $name = $_SESSION['fullName'];
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="updateprof.php">
+                <a class="nav-link" href="updateprof.html">
                     <i class="fas fa-user-edit"></i>
                     <span>Update Profile</span></a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="dashboard-editpassword.php">
+                <a class="nav-link" href="dashboard-editpassword.html">
                     <i class="fas fa-user-cog"></i>
                     <span>Edit Password</span></a>
             </li>
@@ -88,25 +99,25 @@ $name = $_SESSION['fullName'];
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="dashboard -gov.php">
+                <a class="nav-link" href="dashboard -gov.html">
                     <i class="fas fa-map-marker-alt"></i>
                     <span>Governorate</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
-                <a class="nav-link" href="major.php">
+                <a class="nav-link" href="major.html">
                     <i class="fas fa-clinic-medical"></i>
                     <span>Major Doctor</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="doctorconf.php">
+                <a class="nav-link" href="doctorconf.html">
                     <i class="far fa-check-circle"></i>
                     <span>Confirmation</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="feedback.php">
+                <a class="nav-link" href="feedback.html">
                     <i class="fas fa-comments"></i>
                     <span>Feedback</span></a>
             </li>
@@ -157,7 +168,7 @@ $name = $_SESSION['fullName'];
                             </div>
                         </div>
                     </form-->
-                    <h3 class="pt-2">Welcome <?php echo $name; ?></h3>
+                    <h3 class="pt-2">Welcome  UserName</h3>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -224,7 +235,7 @@ $name = $_SESSION['fullName'];
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                  <a href="index.php" type="button" class="btn btn-danger">Logout</a>
+                                  <a href="index.html" type="button" class="btn btn-danger">Logout</a>
                                 </div>
                               </div>
                             </div>
@@ -262,8 +273,24 @@ $name = $_SESSION['fullName'];
         </div>
         </div>
         </div>
+        <?php
+            if (isset($_GET["msg"])) {
+            $msg = $_GET["msg"];
+            echo '<div id="successMessage" class="alert alert-success mt-2" role="alert">' . $msg . '</div>';
+        }?>
+        <?php
+            if (isset($_GET["msgg"])) {
+            $msg = $_GET["msgg"];
+            echo '<div id="successMessage" class="alert alert-success mt-2" role="alert">' . $msg . '</div>';
+        }?>
+        <?php
+            if (isset($_GET["msggg"])) {
+            $msg = $_GET["msggg"];
+            echo '<div id="successMessage" class="alert alert-danger mt-2" role="alert">' . $msg . '</div>';
+        }?>
                 <div class="row  d-flex justify-content-center align-items-center">
                     <div class="col-lg-12">
+                   
                 <table class="table text-center table-striped table-light table-bordered border-primary" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
                     <thead>
                         <tr>
@@ -273,92 +300,74 @@ $name = $_SESSION['fullName'];
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Dentist</td>
-                            <td> <a href="#" title="Edit" class="btn bg-primary text-white  " data-bs-toggle="modal" data-bs-target="#modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#" title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm">
-                                    <i class="fas fa-trash-alt"></i></a>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Dietitian</td>
-                            <td><a href="#" title="Edit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#" title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm"><i
+                        <?php
+                                 $sql = "SELECT * FROM `doctormajor`";
+                                 $result = mysqli_query($conn, $sql);
+                                 while ($row = mysqli_fetch_assoc($result)) {
+                                    $id=$row["id"];
+                                 ?>
+                                   <tr>
+                    
+                                     <td><?php echo $row["id"] ?></td>
+                                     <td><?php echo $row["majorName"] ?></td>
+                                     <td>
+                                     <a href="#edit_<?php echo $row["id"] ?>" class="btn bg-primary text-white btnEdit" data-bs-toggle="modal">
+                                      <i class="fas fa-edit"></i></a>
+                                     <a href="#delete_<?php echo $row["id"] ?>" title="Delete" class="btn bg-primary text-white btnDelete" data-bs-toggle="modal"><i
                                         class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Surgeon</td>
-                            <td><a href="#" title="Edit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#"  title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm"><i
-                                        class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Cardiologist</td>
-                            <td><a href="#" title="Edit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#"  title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm"><i
-                                        class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Neurologist</td>
-                            <td><a href="#" title="Edit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#"  title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm"><i
-                                        class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>Cosmetic</td>
-                            <td><a href="#"  title="Edit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#"  title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm"><i
-                                        class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td>Public Health</td>
-                            <td><a href="#" title="Edit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#"  title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm"><i
-                                        class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>Gynecologist</td>
-                            <td><a href="#" title="Edit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#"  title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm"><i
-                                        class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
+                                     </td>
+                                     <div class="modal fade" id="edit_<?php echo $row['id']; ?>"tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                       <div class="modal-dialog">
+                                           <div class="modal-content">
+                                               <div class="modal-header">
+                                                   <h5 class="modal-title" id="modalLabel">Edit Major</h5>
+                                                   <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                       <span aria-hidden="true">&times;</span>
+                                                   </button>
+                                                               </div>
+                                               <form action="./majoraddeditdel/editmajor.php?id=<?php echo $row['id']; ?>" method="POST">
+                                               <div class="modal-body">
+                                                   <label class="form-group"> Major Name </label>
+                                                   <input type="text"  name="majorname" value="<?php echo $row['majorName']; ?>" class="form-control">
+                                               </div>
+                                               <div class="modal-footer">
+                                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                   <button type="submit" name="submit" class="btn btn-primary" >Save</button>
+                                               </div>
+                                               </form>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="modal fade" id="delete_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="modalmLabel">Delete Major</h5>
+                                          <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>         
+                                       </div>
+                                        <div class="modal-body">
+                                          <p class="text-danger"> Are You Sure You Want To Delete ?</p>
+                                          <h3 class="text-center text-dark"><?php echo $row['majorName']; ?></h3>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                          <a href="./majoraddeditdel/deleteMajor.php?id=<?php echo $row['id']; ?>" class="btn btn-danger"> Yes</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                   </tr>
+                                 <?php
+                                 }
+                                 ?>
                     </tbody>
                 </table>
             </div>
         </div>
-        
+       
         <div class="modal fade" id="modalh" tabindex="-1" aria-labelledby="modalhLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -368,60 +377,22 @@ $name = $_SESSION['fullName'];
                             <span aria-hidden="true">&times;</span>
                         </button>                  
                       </div>
+                      <form action="./majoraddeditdel/addmajor.php" method="POST" >
                     <div class="modal-body">
                         <label class="form-group"> Major Name </label>
-                        <input type="text" id="majorNameInput" class="form-control">
+                        <input type="text" name="majoradd" id="majorNameInput" class="form-control" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" >Save</button>
+                        <button type="submit" name="submit" class="btn btn-primary" >Save</button>
                     </div>
+                         </form>
                 </div>
             </div>
         </div>
     
 
-    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Edit Major</h5>
-                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                                </div>
-                <div class="modal-body">
-                    <label class="form-group"> Major Name </label>
-                        <input type="text" id="majorinput" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" >Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalm" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalmLabel">Delete Major</h5>
-              <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>         
-           </div>
-            <div class="modal-body">
-              <p> Are You Sure You Want To Delete It ?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">yes</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <!-- /.container-fluid -->
 
 </div>
@@ -470,47 +441,7 @@ $name = $_SESSION['fullName'];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-6wpH4NlYgZp6t0mbrJd9AxSTYceP/KWyfAA9TzQgZyFeEgIf82Cn/qyHjYUewt1/"
         crossorigin="anonymous"></script>
-
-
-        <script>
-            $(document).ready(function() {
-                // Add event listener to the "Save" button in the "Add" modal
-                $("#modalh .btn-primary").click(function() {
-                    // Reset previous error messages
-                    $("#majorNameInput").removeClass("is-invalid");
-                    $("#modalh .error-message").remove();
-        
-                    // Validate the input value
-                    var newGovernorate = $("#majorNameInput").val().trim();
-                    if (newGovernorate === "") {
-                        $("#majorNameInput").addClass("is-invalid");
-                        $("<div class='text-danger error-message'>Please enter a value.</div>").insertAfter("#majorNameInput");
-                        return; // Stop execution if validation fails
-                    }
-        
-                    // If validation passes, proceed with saving the data
-                    // ...
-                });
-        
-                // Add event listener to the "Save" button in the "Edit" modal
-                $("#modal .btn-primary").click(function() {
-                    // Reset previous error messages
-                    $("#majorinput").removeClass("is-invalid");
-                    $("#modal .error-message").remove();
-        
-                    // Validate the input value
-                    var governorate = $("#majorinput").val().trim();
-                    if (governorate === "") {
-                        $("#majorinput").addClass("is-invalid");
-                        $("<div class='text-danger error-message'>Please enter a value.</div>").insertAfter("#majorinput");
-                        return; // Stop execution if validation fails
-                    }
-        
-                    // If validation passes, proceed with saving the data
-                    // ...
-                });
-            });
-        </script>
+   
           
 </body>
 

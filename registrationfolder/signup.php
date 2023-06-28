@@ -82,21 +82,25 @@ if (isset($_POST['register'])) {
     if (empty($errors)) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        if ($_POST['role'] == 'doctor' && !empty($certificate)) {
+        if ($_POST['role'] == 'doctor') {
             $certificateName = $_FILES['certificate']['name'];
             $certificateTmpName = $_FILES['certificate']['tmp_name'];
-            $certificatePath = "certificate_uploads/" . $certificateName;
-    
+            $certificatePath = "certificate_uploads/" . $certificateName ;
+
             if (move_uploaded_file($certificateTmpName, $certificatePath)) {
                 // File uploaded successfully, update database and set doctor status to 0
-                $stmt = $conn->prepare("INSERT INTO user (fullName, password, email, address, phoneNumber, roleid, certificate, isdoctor, doctorstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $isDoctor = ($_POST['role'] == 'doctor') ? 1 : 0;
-                $doctorStatus = 0;
-                $stmt->bind_param("sssssisii", $fullName, $hashedPassword, $email, $address, $phone, $role, $certificateName, $isDoctor, $doctorStatus);
+                $stmt = $conn->prepare("INSERT INTO user (fullName, password, email, address, phoneNumber, roleid, certificate, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $active = 0;
+                $stmt->bind_param("sssssisi", $fullName, $hashedPassword, $email, $address, $phone, $role, $certificateName, $active);
                 $stmt->execute();
     
+                $_SESSION['certificate'] = $certificatePath; 
+
                 $stmt->close();
                 echo "<script>alert('Your registration request has been submitted. Please wait for 10 to 15 days for approval.');window.location.href = '../login.php';</script>";
+
+                chmod($certificatePath, 0644);
+                
 
             } else {
                 $errors[] = "Failed to upload certificate file.";
@@ -105,9 +109,9 @@ if (isset($_POST['register'])) {
       
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         
-        $stmt = $conn->prepare("INSERT INTO user (fullName, password, email, address, phoneNumber, roleid,  isdoctor) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $isDoctor =($_POST['role'] == 'doctor') ? 1 : 0;
-        $stmt->bind_param("sssssii", $fullName, $hashedPassword, $email, $address, $phone, $role , $isDoctor);
+        $stmt = $conn->prepare("INSERT INTO user (fullName, password, email, address, phoneNumber, roleid,  active) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $active = 1;
+        $stmt->bind_param("sssssii", $fullName, $hashedPassword, $email, $address, $phone, $role , $active);
         $stmt->execute();
 
        

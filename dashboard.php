@@ -1,7 +1,23 @@
 <?php
-session_start();
 require_once 'connect.php';
+session_start();
+if (!isset($_SESSION['fullName'])) {
+    header("Location: login.php");
+    exit();
+}
 $name = $_SESSION['fullName'];
+$query = "SELECT roleid FROM user WHERE fullName = '$name'";
+$result = mysqli_query($conn, $query);
+
+if (mysqli_num_rows($result) == 1) {
+    $row = mysqli_fetch_assoc($result);
+    $roleId = $row['roleid'];
+
+    if ($roleId != 1) {
+        header("Location: login.php");
+        exit(); 
+    }
+}
 ?>
 
 <!DOCTYPE html>
