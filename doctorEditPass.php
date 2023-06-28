@@ -1,7 +1,16 @@
 <?php
-require_once 'connect.php';
 session_start();
+require_once 'connect.php';
 $name = $_SESSION['fullName'];
+
+
+if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
+
+
+}
+
+?>                                   
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -263,26 +272,26 @@ $name = $_SESSION['fullName'];
             <div class="col-xl-10">
               <div class="p-5">
                 <!-- <h4 class="card-title">Update Password</h4> -->
-
-                <form id="updatePasswordForm">
+                <form id="updatePasswordForm" action="./admin editpassword-doctor/editpassword-doctor.php" method="POST">
+              
                   <div class="form-group">
                     <label class="font-weight-bold" for="currentPassword">Current Password</label>
-                    <input type="password" class="form-control" id="currentPassword"
+                    <input type="password" class="form-control" id="currentPassword" name="oldPassword"
                       placeholder="Enter your current password">
-                  </div>
+                  </div>oldPassword
 
                   <div class="form-group">
                     <label class="font-weight-bold" for="newPassword">New Password</label>
-                    <input type="password" class="form-control" id="newPassword" placeholder="Enter your new password">
+                    <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter your new password">
                   </div>
 
                   <div class="form-group">
                     <label class="font-weight-bold" for="confirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirmPassword"
+                    <input type="password" class="form-control" id="confirmPassword" name="c_newPassword"
                       placeholder="Confirm your new password">
                   </div>
                   <div class="d-flex justify-content-end ">
-                    <button type="submit" title="update" class="btn btn-primary " id="editpassword">Update </button>
+                    <button type="submit" title="update" class="btn btn-primary " id="editpassword" name="update" >Update </button>
                     
                   </div>
 
