@@ -1,14 +1,54 @@
 <?php
 require_once 'connect.php';
 session_start();
+$id = $_SESSION['id'];
 $name = $_SESSION['fullName'];
+$sql = "SELECT c.id, c.clinicname, c.phone, g.govname, d.majorName, c.clinicFullAddress, s.clinicid,
+        GROUP_CONCAT(s.weekday) AS weekdays,
+        (SELECT s.starttime FROM schedule AS s WHERE s.clinicid = c.id ORDER BY s.starttime ASC LIMIT 1) AS starttime,
+        (SELECT s.endtime FROM schedule AS s WHERE s.clinicid = c.id ORDER BY s.endtime DESC LIMIT 1) AS endtime
+        FROM clinic AS c
+        JOIN governorate AS g ON c.clinicGovid = g.id
+        JOIN doctormajor AS d ON c.clinicMajorid = d.id
+        JOIN schedule AS s ON c.id = s.clinicid
+        WHERE c.doctorid = ? 
+        GROUP BY c.id";
+$stmt = mysqli_prepare($conn, $sql);
+if ($stmt) {
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt,$id, $clinicname, $phone, $governorate, $major, $clinicFullAddress,$clinicid, $weekdays, $starttime, $endtime);
+
+    $clinics = array();
+
+    while (mysqli_stmt_fetch($stmt)) {
+        $clinics[] = array(
+            'id'=> $id,
+            'clinicname' => $clinicname,
+            'phone' => $phone,
+            'govname' => $governorate,
+            'majorName' => $major,
+            'clinicFullAddress' => $clinicFullAddress,
+            'clinicid' => $clinicid,
+            'weekdays' => explode(',', $weekdays),
+            'starttime' => $starttime,
+            'endtime' => $endtime
+        );
+    }
+
+    mysqli_stmt_close($stmt);
+} else {
+    echo "Error: " . mysqli_error($conn);
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -26,51 +66,9 @@ $name = $_SESSION['fullName'];
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
-    <script>
-        $(document).ready(function() {
-            $("#reqClinicName").hide();
-            $("#btnSave").click(function() {
-            if ($("#txtName").val() == "")
-                $("#reqClinicName").show();
-            });
-            $("#reqClinicPhone").hide();
-            $("#btnSave").click(function() {
-            if ($("#txtPhone").val() == "")
-                $("#reqClinicPhone").show();
-            });
-                 
-            $("#reqClinicGov").hide();
-            $("#btnSave").click(function() {
-            if ($("#txtGov").val() == "")
-                $("#reqClinicGov").show();
-            });
-          
-            $("#reqClinicMajor").hide();
-            $("#btnSave").click(function() {
-            if ($("#txtMajor").val() == "")
-                $("#reqClinicMajor").show();
-            });
-
-            $("#reqClinicAddress").hide();
-            $("#btnSave").click(function() {
-            if ($("#txtAddress").val() == "")
-                $("#reqClinicAddress").show();
-            });
-            
-          
-            
-            
-        });
-
-  
-
-
-    </script>
 </head>
 
 <body id="page-top">
@@ -280,12 +278,13 @@ $name = $_SESSION['fullName'];
         <div class="row gx-5 " >
             <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6 d-flex justify-content-end align-items-end"
                >
-                <a href="doctorAddClinic.html" title="Add" class="btn bg-primary text-white mb-3">
+                <a href="doctorAddClinic.php" title="Add" class="btn bg-primary text-white mb-3">
                     <i class="fas fa-plus-square"></i>
                     Add clinic
                 </a>
             </div>
         </div>
+      <?php foreach ($clinics as $clinic) : ?>
         <div class="row">
             <div class="col-lg-12 ">
                 <div class="card" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245) ">
@@ -293,12 +292,12 @@ $name = $_SESSION['fullName'];
                     <div class="card-header ">
                         <div class="row ">
                             <div class="col-lg-12 d-flex justify-content-end align-items-end ">
-                                <a href="#" title="Edit" class="btn btn-primary text-white" data-bs-toggle="modal"
+                            <a href="#" title="Edit" class="btn btn-primary text-white" data-bs-toggle="modal"
                                     data-bs-target="#modal" style="margin-right: 8px;">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" title="Delete" class="btn btn-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm">
+                                <a href="#" title="Delete" class="btn btn-danger text-white" data-bs-toggle="modal"
+                                    data-bs-target="#modalm" >
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                                
@@ -310,34 +309,31 @@ $name = $_SESSION['fullName'];
                             <div class="col-6">
                                 <label class="form-group mb-2">Clinic Name </label>
                                 <input type="text" class="form-control mb-3" id="text"
-                                  value=" White Teeth By H.H"  >
+                                name ="name" value="<?php echo $clinic['clinicname']; ?>" >
                             </div>
                             <div class="col-6">
                                 <label class="form-group mb-2"> Clinic Phone Number </label>
                                 <input type="text" class="form-control mb-3" id="text"
-                                    value="+961 81622175">
+                                name="phone" value="<?php echo $clinic['phone'];?>">
                             </div>
                         </div>
-
-
-
                         <div class="row">
                             <div class="col-6">
                                 <label class="form-group mb-2"> Governorate </label>
                                 <input type="text" class="form-control mb-3" id="text"
-                                    value="Nabatieh">
+                                name="governorate"  value="<?php echo $clinic['govname'];?>">
                             </div>
                             <div class="col-6">
                                 <label class="form-group mb-2"> Major </label>
                                 <input type="text" class="form-control mb-3" id="text"
-                                   value="Dentist">
+                                name="major" value="<?php echo $clinic['majorName'];?>">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <label class="form-label mb-2"> Full Address </label>
                                 <input type="text" class="form-control mb-3" id="text"
-                                   value="Habboush-Al Baydar">
+                                 name="address"  value="<?php echo $clinic['clinicFullAddress'];?>">
                             </div>
                             
                             
@@ -346,116 +342,47 @@ $name = $_SESSION['fullName'];
                         <div class="col-lg-6 " style="padding-top: 25px; padding-bottom: 35px;">
                             <h5 class="border text-primary" style="display: flex; align-items: center; padding-left: 12px; 
                             border-style: solid; border-radius: 10px; height: 40px;"> 
-                                Manage Schedule: </h5>
-                            
+                                Manage Schedule: </h5>                            
                        </div>
+                       <div class="col-lg-6 " style="padding-top: 25px; padding-bottom: 35px;">
+                       <a href="#" title="Edit" class="btn btn-primary text-white" style="margin-right: 8px;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                          </div>
                     </div>
-                        <div class="row">
-                            <div class="col-12">
-                               
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label class="form-label">Monday</label>
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="text" class="form-control" id="time" value="08:30 AM">
-                                    </div>
-                                    <div class="col-4 " style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="text" class="form-control" id="time" value="09:00 AM">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label class="form-label">Tuesday</label>
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="text" class="form-control" id="time" value="01:00 AM">
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="text" class="form-control" id="time" value="01:30 AM">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label class="form-label">Wednesday</label>
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="text" class="form-control" id="time" value="10:30 AM">
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="text" class="form-control" id="time" value="11:00 AM">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label class="form-label">Thursday</label>
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="text" class="form-control" id="time" value="10:00 AM">
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="text" class="form-control" id="time" value="10:30 AM">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label class="form-label">Friday</label>
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="text" class="form-control" id="time" value="08:30 AM">
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="text" class="form-control" id="time" value="09:00 AM">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label class="form-label">Saturday</label>
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="text" class="form-control" id="time" value="09:30 AM">
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="text" class="form-control" id="time" value="10:00 AM">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label class="form-label">Sunday</label>
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="text" class="form-control" id="time" value="09:00 AM">
-                                    </div>
-                                    <div class="col-4" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="text" class="form-control" id="time" value="09:30 AM">
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      </div>
+                    <div class="col-lg-12">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dynamic_field">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($clinicid === $id):?>
+            <?php $weekdays = array_unique($clinic['weekdays']); ?>
+                <?php foreach ($weekdays as $weekday) : ?>
+                    <tr>
+                        <td><?php echo $weekday; ?></td>
+                        <?php foreach ($clinic['weekdays'] as $key => $day) : ?>
+                            <?php if ($day === $weekday) : ?>
+                                <td><?php echo $clinic['starttime']; ?></td>
+                                <td><?php echo $clinic['endtime']; ?></td>
+                                <?php break; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endforeach; ?>
+                <?php endif;?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -470,50 +397,53 @@ $name = $_SESSION['fullName'];
                                 <label class="form-group mb-2"> Clinic Name </label>
                                 <input type="text" class="form-control " id="txtName"
                                     placeholder="Add Your Clinic Name">
-                                    <span class="text-danger" id="reqClinicName">please enter clinic name</span>
                             </div>
                             <div class="col-6">
                                 <label class="form-group mb-2"> Clinic Phone Number </label>
                                 <input type="text" class="form-control " id="txtPhone"
                                     placeholder="Add Your Clinic Phone Number">
-                                    <span class="text-danger" id="reqClinicPhone">please enter clinic Phone Number</span>
                             </div>
                         </div>
-
-
-
                         <div class="row">
                             <div class="col-6">
-                                <label class="form-group mt-2"> Governorate </label>
-                                <select class="form-control " id="txtGov">
-                                    <option value="" selected hidden>please select the governorate</option>
-                                    <option  value="Nabatieh">Nabatieh</option>
-                                    <option  value="Beirut">Beirut</option>
-                                    <option  value="Mount Lebanon">Mount Lebanon</option>
-                                    <option  value="Beqaa">Beqaa</option>
-                                    <option  value="North">North</option>
-                                    <option  value="South">South</option>
-                                    <option  value="Akkar">Akkar</option>
-                                    <option  value="Baalbek-hermel">Baalbek-hermel</option>
-                                    <option  value="Keserwen-Jbeil">Keserwen-Jbeil</option>
-                                   
-                                </select>
-                                <span class="text-danger" id="reqClinicGov">please select the governorate</span>
+                            <label class="form-group">GOVERNORATE</label>
+            <select class="form-control" id="txtGov" name="governorate">
+            <option selected disabled>please select Governorate</option>
+                <?php
+                // Fetch governorate IDs and names from the governorate table
+                $governorateQuery = "SELECT id, govname FROM governorate";
+                $governorateResult = mysqli_query($conn, $governorateQuery);
+                if ($governorateResult && mysqli_num_rows($governorateResult) > 0) {
+                    while ($govRow = mysqli_fetch_assoc($governorateResult)) {
+                        $govid = $govRow['id'];
+                        $govname = $govRow['govname'];
+                        echo "<option value='$govid'>$govname</option>";
+                    }
+                } else {
+                    echo "<option disabled selected>This governorate does not exist</option>";
+                }
+                ?>
+            </select>
                             </div>
                             <div class="col-6">
-                                <label class="form-group mt-2"> Major </label>
-                                <select class=" form-control " id="txtMajor">
-                                    <option value="" selected hidden>please select the major </option>
-                                    <option value="Dentist">Dentist</option>
-                                    <option value="Dietitian">Dietitian</option>
-                                    <option value="Surgeon">Surgeon</option>
-                                    <option value="Cardiologist">Cardiologist</option>
-                                    <option value="Neurologist">Neurologist</option>
-                                    <option value="Cosmetic">Cosmetic</option>
-                                    <option value="Public Health">Public Health</option>
-                                    <option value="Gynecologist">Gynecologist</option>
-                                </select>
-                                <span class="text-danger" id="reqClinicMajor">please select the major</span>
+                            <label class="form-group">MAJOR</label>
+            <select class="form-control" id="txtMajor" name="major">
+            <option selected disabled>please select your major</option>
+                <?php
+                // Fetch major IDs and names from the doctormajor table
+                $majorQuery = "SELECT id, majorName FROM doctormajor";
+                $majorResult = mysqli_query($conn, $majorQuery);
+                if ($majorResult && mysqli_num_rows($majorResult) > 0) {
+                    while ($majorRow = mysqli_fetch_assoc($majorResult)) {
+                        $majorid = $majorRow['id'];
+                        $majorName = $majorRow['majorName'];
+                        echo "<option value='$majorid'>$majorName</option>";
+                    }
+                } else {
+                    echo "<option disabled selected>This major does not exist</option>";
+                }
+                ?>
+            </select>
                             </div>
                         </div>
                         <div class="row">
@@ -521,105 +451,8 @@ $name = $_SESSION['fullName'];
                                 <label class="form-label mb-2"> Full Address </label>
                                 <input type="text" class="form-control" id="txtAddress"
                                     placeholder="Add Your Clinic Address">
-                                    <span class="text-danger" id="reqClinicAddress">please enter the full address</span>
                             </div>
                             
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <label class="form-group"> Manage Schedule</label>
-                                <div class="row">
-                                    <div class="col-2">
-                                        <label class="form-label">Monday</label>
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                    <div class="col-5 p-2 " style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        <label class="form-label">Tuesday</label>
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        <label class="form-label">Wednesday</label>
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        <label class="form-label">Thursday</label>
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        <label class="form-label">Friday</label>
-                                    </div>
-                                    <div class="col-5 p-2 " style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        <label class="form-label">Saturday</label>
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        <label class="form-label">Sunday</label>
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">From</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                    <div class="col-5 p-2" style="padding-left: 40px;">
-                                        <label class="form-label">To</label>
-                                        <input type="time" class="form-control" id="time">
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -628,26 +461,30 @@ $name = $_SESSION['fullName'];
                     </div>
                 </div>
             </div>
-
-            
-        </div>
-        <div class="modal fade" id="modalm" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal fade" id="modalm" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalmLabel">Delete Clinic</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="modalmLabel">Edit Clinic Informations</h5>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are You Sure You Want To Delete It?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Yes</button>
+                        <p> Are you sure you want to delete this clinic?</p>
+            </div>
+            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="btnSave">Delete</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+
+
+  </div>
+    </div>
 
     </div>
     <!-- /.container-fluid -->

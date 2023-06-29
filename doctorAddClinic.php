@@ -332,53 +332,53 @@ $name = $_SESSION['fullName'];
                             </div>
                         </div>
                         <div class="row">
-    <div class="col-lg-6">
-        <div class="px-4">
-            <div class="mb-4">
-                <label class="form-group">GOVERNORATE</label>
-                <select class="form-control" id="txtGov" name="governorate">
-                    <?php
-                    // Fetch governorate names from the governorate table
-                    $governorateQuery = "SELECT id, govname FROM governorate";
-                    $governorateResult = mysqli_query($conn, $governorateQuery);
-                    if ($governorateResult && mysqli_num_rows($governorateResult) > 0) {
-                        while ($govRow = mysqli_fetch_assoc($governorateResult)) {
-                            $govid = $govRow['id'];
-                            $govname = $govRow['govname'];
-                            echo "<option value='$govid'>$govname</option>";
-                        }
-                    } else {
-                        echo "<option disabled selected>This governorate does not exist</option>";
+                        <div class="col-lg-6">
+    <div class="px-4">
+        <div class="mb-4">
+            <label class="form-group">GOVERNORATE</label>
+            <select class="form-control" id="txtGov" name="governorate">
+                <?php
+                // Fetch governorate IDs and names from the governorate table
+                $governorateQuery = "SELECT id, govname FROM governorate";
+                $governorateResult = mysqli_query($conn, $governorateQuery);
+                if ($governorateResult && mysqli_num_rows($governorateResult) > 0) {
+                    while ($govRow = mysqli_fetch_assoc($governorateResult)) {
+                        $govid = $govRow['id'];
+                        $govname = $govRow['govname'];
+                        echo "<option value='$govid'>$govname</option>";
                     }
-                    ?>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="px-4">
-            <div class="mb-4">
-                <label class="form-group">MAJOR</label>
-                <select class="form-control" id="txtMajor" name="major">
-                    <?php
-                    // Fetch major names from the doctormajor table
-                    $majorQuery = "SELECT id, majorName FROM doctormajor";
-                    $majorResult = mysqli_query($conn, $majorQuery);
-                    if ($majorResult && mysqli_num_rows($majorResult) > 0) {
-                        while ($majorRow = mysqli_fetch_assoc($majorResult)) {
-                            $majorid = $majorRow['id'];
-                            $majorName = $majorRow['majorName'];
-                            echo "<option value='$majorid'>$majorName</option>";
-                        }
-                    } else {
-                        echo "<option disabled selected>This major does not exist</option>";
-                    }
-                    ?>
-                </select>
-            </div>
+                } else {
+                    echo "<option disabled selected>This governorate does not exist</option>";
+                }
+                ?>
+            </select>
         </div>
     </div>
 </div>
+<div class="col-lg-6">
+    <div class="px-4">
+        <div class="mb-4">
+            <label class="form-group">MAJOR</label>
+            <select class="form-control" id="txtMajor" name="major">
+                <?php
+                // Fetch major IDs and names from the doctormajor table
+                $majorQuery = "SELECT id, majorName FROM doctormajor";
+                $majorResult = mysqli_query($conn, $majorQuery);
+                if ($majorResult && mysqli_num_rows($majorResult) > 0) {
+                    while ($majorRow = mysqli_fetch_assoc($majorResult)) {
+                        $majorid = $majorRow['id'];
+                        $majorName = $majorRow['majorName'];
+                        echo "<option value='$majorid'>$majorName</option>";
+                    }
+                } else {
+                    echo "<option disabled selected>This major does not exist</option>";
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+</div>
+
 
                             <div class="row">
                                 <div class="col-lg-12">

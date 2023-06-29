@@ -8,34 +8,16 @@ if (isset($_POST['submit'])) {
     $clinicName = $_POST['name'];
     $clinicPhone = $_POST['phone'];
     $clinicAddress = $_POST['address'];
-    $selectedGovernorate = $_POST['governorate'];
-    $selectedMajor = $_POST['major'];
+    $selectedGovernorateId = $_POST['governorate']; // Retrieve selected governorate ID directly
+    $selectedMajorId = $_POST['major']; // Retrieve selected major ID directly
    
-    // Insert the selected governorate into the governorate table if it doesn't exist
-    $governorateInsertQuery = "INSERT IGNORE INTO governorate (govname) VALUES ('$selectedGovernorate')";
-    mysqli_query($conn, $governorateInsertQuery);
-
-    // Retrieve the governorate ID
-    $governorateIdQuery = "SELECT id FROM governorate WHERE govname = '$selectedGovernorate'";
-    $governorateIdResult = mysqli_query($conn, $governorateIdQuery);
-    $governorateId = mysqli_fetch_assoc($governorateIdResult)['id'];
-
-    // Insert the selected major into the doctormajor table if it doesn't exist
-    $majorInsertQuery = "INSERT IGNORE INTO doctormajor (majorName) VALUES ('$selectedMajor')";
-    mysqli_query($conn, $majorInsertQuery);
-
-    // Retrieve the major ID
-    $majorIdQuery = "SELECT id FROM doctormajor WHERE majorName = '$selectedMajor'";
-    $majorIdResult = mysqli_query($conn, $majorIdQuery);
-    $majorId = mysqli_fetch_assoc($majorIdResult)['id'];
-
     // Insert clinic data into the clinic table
     $clinicInsertQuery = "INSERT INTO clinic (clinicname, phone, clinicFullAddress, clinicGovId, clinicMajorid, doctorid) 
-                          VALUES ('$clinicName', '$clinicPhone', '$clinicAddress', '$governorateId', '$majorId','$id')";
+                          VALUES ('$clinicName', '$clinicPhone', '$clinicAddress', '$selectedGovernorateId', '$selectedMajorId','$id')";
     mysqli_query($conn, $clinicInsertQuery);
 
     // Retrieve the newly inserted clinic's ID
-    $clinicId = mysqli_insert_id($conn);
+    $clinicId = mysqli_insert_id($conn);;
 
     // Insert the schedule information into the Schedule table for each day
 $days = ['day1', 'day2', 'day3', 'day4', 'day5'];
