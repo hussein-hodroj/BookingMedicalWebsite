@@ -38,7 +38,7 @@ $name = $_SESSION['fullName'];
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon ">
                     <i class="far fa-hospital"></i>
                 </div>
@@ -145,19 +145,7 @@ $name = $_SESSION['fullName'];
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <!-- <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
+               
                     <h3 class="pt-2">Welcome <?php echo $name; ?></h3>
 
                     <!-- Topbar Navbar -->
@@ -258,53 +246,61 @@ $name = $_SESSION['fullName'];
                     <!-- <div class="row">
                         
                     </div> -->
-                    <div class="container-fluid ">
-                        <div class="row">
-                            <div class="col-lg-12  justify-content-center align-items-center  ">
-                                <div class="card shadow shadow-primary "
-                                    style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
-                                    <div class="card-header" align="left">
-                                        <h5 class=" card-title fw-medium p-1 m-0  text-muted"
-                                            style="font-family:'Times New Roman', Times, serif ;"> The Field Below Are
-                                            Required To Be Able To Use Your Account </h5>
-                                    </div>
-                                    <div class="card-body" align="left">
-                                        <div class="form-group">
-                                            <label> Full Name </label>
-                                            <input type="text" id="pfullName"
-                                                class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
-                                                placeholder="Enter Your Name" required>
+                    <form action="pt_update_profile.php" method="POST">
+                    <?php
+                            $sql = "SELECT * FROM user WHERE fullName = '$name'";
+                            $result = mysqli_query($conn, $sql);
+                            $row = mysqli_fetch_assoc($result);
+                            ?>
+                         <div class="container-fluid ">
+                            <div class="row">
+                                <div class="col-lg-12  justify-content-center align-items-center  ">
+                                    <div class="card shadow shadow-primary "
+                                        style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
+                                        <div class="card-header" align="left">
+                                            <h5 class=" card-title fw-medium p-1 m-0  text-muted"
+                                                style="font-family:'Times New Roman', Times, serif ;"> The Field Below
+                                                Are Required To Be Able To Use Your Account </h5>
                                         </div>
-                                        <div class="form-group">
-                                            <label> Address </label>
-                                            <input type="text" id="paddress"
-                                                class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
-                                                placeholder="Enter Your Address" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label> E-mail </label>
-                                            <input type="email" id="pemail"
-                                                class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
-                                                placeholder="Enter Your Email" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label> Phone Number </label>
-                                            <input type="text" id="pphoneNumber"
-                                                class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
-                                                placeholder="Enter Your Phone Number" required>
-                                        </div>
-                                        <div align="center" style="padding-top: 15px;">
-                                            <button type="submit" class="btn btn-primary" id="pupdateProfileBtn"> Update
-                                                Profile </button>
+                                        <div class="card-body" align="left">
+                                            <div class="form-group">
+                                                <label> Full Name </label>
+                                                <input type="text" id="fullName" name="fullName"
+                                                    class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
+                                                    value="<?php echo $name ?>" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> Address </label>
+                                                <input type="text" id="address" name="address"
+                                                    class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
+                                                    value="<?php echo $row['address'] ?>" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> E-mail </label>
+                                                <input type="email" id="email" name="email"
+                                                    class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
+                                                    value="<?php echo $row['email'] ?>" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> Phone Number </label>
+                                                <input type="text" id="phoneNumber" name="phoneNumber"
+                                                    class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
+                                                    value="<?php echo $row['phoneNumber'] ?>" required>
+                                            </div>
+                                            <div align="center" style="padding-top: 15px;">
+                                                <button type="submit" name="submit" class="btn btn-primary"
+                                                   > Update Profile </button>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            
+                        
+                </form>
                 <!-- /.container-fluid -->
-
+</from>
             </div>
             <!-- End of Main Content -->
 
