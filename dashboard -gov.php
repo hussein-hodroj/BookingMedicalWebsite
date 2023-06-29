@@ -457,7 +457,7 @@ if ($result) {
         $("#modal .btn-primary").click(function() {
             // Reset previous error messages
             $("#modaltext").removeClass("is-invalid");
-            $("#modal .error-message").remove();
+            $("#modal .error-message").remove(); 
 
             // Validate the input value
             var governorate = $("#modaltext").val().trim();

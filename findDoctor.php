@@ -300,7 +300,7 @@ $name = $_SESSION['fullName'];
                                         $count = 1;
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             echo "<tr>";
-                                            echo "<td>" . $count . "</td>";
+                                            echo "<td>" . $count . "</td>"; 
                                             echo "<td>" . $row['fullName'] . "</td>";
                                             echo "<td>" . $row['majorName'] . "</td>";
                                             echo "<td>" . $row['govname'] . "</td>";
