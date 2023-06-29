@@ -2,6 +2,7 @@
 require_once 'connect.php';
 session_start();
 $name = $_SESSION['fullName'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,12 +62,15 @@ $name = $_SESSION['fullName'];
                 Profile
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item active">
-                <a class="nav-link" href="updateprof.php">
-                    <i class="fas fa-user-edit"></i>
-                    <span>Update Profile</span></a>
-            </li>
+         <!-- Nav Item - Pages Collapse Menu -->
+         <li class="nav-item active">
+    <a class="nav-link" href="">
+        <i class="fas fa-user-edit"></i>
+        <span>Update Profile</span>
+    </a>
+</li>
+
+
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
@@ -246,59 +250,65 @@ $name = $_SESSION['fullName'];
                         <h1 class="h3 mb-0 text-gray-800">Update Profile</h1>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active">Home</li>
-                            <li class="breadcrumb-item"><a href="#">Update Profile</a></li>
+                            <li class="breadcrumb-item"> <a href="" ><span>Update</span></a></li>
                         </ol>
                     </div>
-
-
-
-
-
-                    <div class="container-fluid ">
-                        <div class="row">
-                            <div class="col-lg-12  justify-content-center align-items-center  ">
-                                <div class="card shadow shadow-primary "
-                                    style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
-                                    <div class="card-header" align="left">
-                                        <h5 class=" card-title fw-medium p-1 m-0  text-muted"
-                                            style="font-family:'Times New Roman', Times, serif ;"> The Field Below Are
-                                            Required To Be Able To Use Your Account </h5>
-                                    </div>
-                                    <div class="card-body" align="left">
-                                        <div class="form-group">
-                                            <label> Full Name </label>
-                                            <input type="text" id="fullName"
-                                                class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
-                                                placeholder="Enter Your Name" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label> Address </label>
-                                            <input type="text" id="address"
-                                                class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
-                                                placeholder="Enter Your Address" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label> E-mail </label>
-                                            <input type="email" id="email"
-                                                class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
-                                                placeholder="Enter Your Email" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label> Phone Number </label>
-                                            <input type="text" id="phoneNumber"
-                                                class="form-control shadow-sm p-2 mb-2 mt-2 bg-white "
-                                                placeholder="Enter Your Phone Number" required>
-                                        </div>
-                                        <div align="center" style="padding-top: 15px;">
-                                            <button type="submit" class="btn btn-primary" id="updateProfileBtn"> Update
-                                                Profile </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                
+                  <?php
+                    //   if (isset($_GET["msg"])) {
+                    //     $msg = $_GET["msg"];
+                    //     echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    //     ' . $msg . '</div>';
+                    //   }?>
+                    <div class="container-fluid">
+                    <form action="update_profile.php" method="POST">
+                    <?php
+                            $sql = "SELECT * FROM user WHERE fullName = '$name'";
+                            $result = mysqli_query($conn, $sql);
+                            $row = mysqli_fetch_assoc($result);
+                            ?>
+                       <div class="row">
+                         <div class="col-lg-12 justify-content-center align-items-center">
+                         <div class="card shadow shadow-primary"
+                    style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
+                    <div class="card-header" align="left">
+                        <h5 class="card-title fw-medium p-1 m-0 text-muted"
+                            style="font-family: 'Times New Roman', Times, serif;"> The Fields Below Are Required To Be
+                            Able To Use Your Account </h5>
+                    </div>
+                    <div class="card-body" align="left">
+                        <div class="form-group">
+                            
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" class="form-control shadow-sm p-2 mb-2 mt-2 bg-white"
+                                placeholder="Enter Your Name"  value="<?php echo $name; ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address"  class="form-control shadow-sm p-2 mb-2 mt-2 bg-white"
+                                placeholder="Enter Your Address" value="<?php echo $row['address'] ?>"  required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" class="form-control shadow-sm p-2 mb-2 mt-2 bg-white"
+                                placeholder="Enter Your Email"  value="<?php echo $row['email'] ?>"  required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="text" id="phoneNumber" name="phoneNumber" class="form-control shadow-sm p-2 mb-2 mt-2 bg-white"
+                                placeholder="Enter Your Phone Number" value="<?php echo $row['phoneNumber'] ?>" required>
+                        </div>
+                        <div align="center" style="padding-top: 15px;">
+                            <button type="submit" class="btn btn-primary" name="submit" id="updateProfileBtn">UpdateProfile</button>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
                 <!-- /.container-fluid -->
 
             </div>
@@ -349,61 +359,6 @@ $name = $_SESSION['fullName'];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-
-    <script>
-        $(document).ready(function () {
-            $("#updateProfileBtn").click(function (e) {
-                e.preventDefault();
-
-                var fullName = $("#fullName").val().trim();
-                var address = $("#address").val().trim();
-                var email = $("#email").val().trim();
-                var phoneNumber = $("#phoneNumber").val().trim();
-
-                $(".is-invalid").removeClass("is-invalid");
-                $(".error-message").remove();
-
-                if (fullName === "") {
-                    $("<div class='text-danger error-message'>Please enter your full name.</div>").insertAfter("#fullName");
-                    $("#fullName").addClass("is-invalid");
-                }
-
-                if (address === "") {
-                    $("<div class='text-danger error-message'>Please enter your address.</div>").insertAfter("#address");
-                    $("#address").addClass("is-invalid");
-                }
-
-                if (email === "") {
-                    $("<div class='text-danger error-message'>Please enter your email.</div>").insertAfter("#email");
-                    $("#email").addClass("is-invalid");
-                } else if (!isValidEmail(email)) {
-                    $("<div class='text-danger error-message'>Please enter a valid email address.</div>").insertAfter("#email");
-                    $("#email").addClass("is-invalid");
-                }
-
-                if (phoneNumber === "") {
-                    $("<div class='text-danger error-message'>Please enter your phone number.</div>").insertAfter("#phoneNumber");
-                    $("#phoneNumber").addClass("is-invalid");
-                } else if (!isValidPhoneNumber(phoneNumber)) {
-                    $("<div class='text-danger error-message'>Please enter a valid phone number.</div>").insertAfter("#phoneNumber");
-                    $("#phoneNumber").addClass("is-invalid");
-                }
-                // Check if any errors exist
-                if ($(".error-message").length === 0) {
-                    // Validation successful, perform login action
-                    // Here you can add your own logic to process the login
-                    console.log("Update Profile successful");
-                }
-            });
-
-            function isValidEmail(email) {
-                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(email);
-            }
-
-
-        });
-    </script>
 
 </body>
 

@@ -1,5 +1,7 @@
 <?php  
 include "connect.php";
+session_start();
+$name = $_SESSION['fullName'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +63,7 @@ include "connect.php";
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="dashboard.html">
+                <a class="nav-link" href="dashboard.php">
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -76,14 +78,14 @@ include "connect.php";
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="updateprof.html">
+                <a class="nav-link" href="updateprof.php">
                     <i class="fas fa-user-edit"></i>
                     <span>Update Profile</span></a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="dashboard-editpassword.html">
+                <a class="nav-link" href="dashboard-editpassword.php">
                     <i class="fas fa-user-cog"></i>
                     <span>Edit Password</span></a>
             </li>
@@ -99,25 +101,25 @@ include "connect.php";
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="dashboard -gov.html">
+                <a class="nav-link" href="dashboard -gov.php">
                     <i class="fas fa-map-marker-alt"></i>
                     <span>Governorate</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
-                <a class="nav-link" href="major.html">
+                <a class="nav-link" href="major.php">
                     <i class="fas fa-clinic-medical"></i>
                     <span>Major Doctor</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="doctorconf.html">
+                <a class="nav-link" href="doctorconf.php">
                     <i class="far fa-check-circle"></i>
                     <span>Confirmation</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="feedback.html">
+                <a class="nav-link" href="feedback.php">
                     <i class="fas fa-comments"></i>
                     <span>Feedback</span></a>
             </li>
@@ -168,7 +170,7 @@ include "connect.php";
                             </div>
                         </div>
                     </form-->
-                    <h3 class="pt-2">Welcome  UserName</h3>
+                    <h3 class="pt-2">Welcome  <?php echo $name; ?></h3>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -235,7 +237,7 @@ include "connect.php";
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                  <a href="index.html" type="button" class="btn btn-danger">Logout</a>
+                                  <a href="index.php" type="button" class="btn btn-danger">Logout</a>
                                 </div>
                               </div>
                             </div>

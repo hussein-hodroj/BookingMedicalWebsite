@@ -82,10 +82,10 @@ include "connect.php";
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="register.php">Create an Account!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small text-danger" href="login.html">Already have an account? Login!</a>
+                                        <a class="small text-danger" href="login.php">Already have an account? Login!</a>
                                     </div>
                                 </div>
                             </div>

@@ -43,4 +43,5 @@ function emailExists($email) {
     $count = $row['count'];
     return $count > 0;
 }
+$conn->close();
 ?>

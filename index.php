@@ -73,7 +73,7 @@
     <div class="container-fluid sticky-top bg-white shadow-sm">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-                <a href="index.html" class="navbar-brand">
+                <a href="index.php" class="navbar-brand">
                     <!-- <h1 class="m-0 d-flex">
                         <img src="img/logo.png" class="mb-2 d-none d-xl-block">BookMyCare</h1> -->
                         <img src="img/logotitle.jpg" style="width:90%; height: 90%;">
@@ -100,8 +100,8 @@
       <h1>Welcome</h1>
       <h1> to BookMyCare</h1>
       <h2>Find the Good Life With Good Health</h2>
-      <a href="register.html" class="btn-SignUp">SignUp</a> &nbsp;&nbsp;
-      <a href="login.html" class="btn-LogIn">LogIn <i class="fa fa-sign-in"></i></a>
+      <a href="register.php" class="btn-SignUp">SignUp</a> &nbsp;&nbsp;
+      <a href="login.php" class="btn-LogIn">LogIn <i class="fa fa-sign-in"></i></a>
     </div>
   </section><!-- End Hero -->
 
@@ -164,11 +164,18 @@
           <div class="col-lg-3 col-md-6">
             <div class="count-box">
               <i class="fas fa-user-md"></i> 
-              <h5 > 
+              
+        
+
+              <h5>
               <?php 
-                          include './count_index/doctornumber.php';
-                    ?> 
-               </h5>     
+              include "./count_index/doctornumber.php";
+              ?> 
+             
+               </h5>
+               
+               
+              
             </div>
           </div> 
 
