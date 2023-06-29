@@ -15,6 +15,8 @@ $name = $_SESSION['fullName'];
     <meta name="author" content="">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.7.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- you have to take this link, it's for the data Table -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 
 
     <title>BookMyCare</title> 
@@ -41,7 +43,7 @@ $name = $_SESSION['fullName'];
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon ">
                     <i class="far fa-hospital"></i>
                 </div>
@@ -254,22 +256,22 @@ $name = $_SESSION['fullName'];
                             <li class="breadcrumb-item active"><a href="#">Find Doctor</a></li>
                         </ol>
                     </div>
-                    <div class="container-fluid">
-                        <div class="row gx-5" style="margin-top: -80px;">
+                    <!-- <div class="container-fluid">
+                         <div class="row gx-5" style="margin-top: -80px;">
                             <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6 d-flex justify-content-end align-items-end"
                                 style="padding-top: 63px">
 
-                                <input type="text" class="form-control" placeholder="Search">
+                                <input type="text" class="form-control" id="txtSearch" placeholder="Search">
 
                                 <button class="btn btn-primary" type="button">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row  pt-5 d-flex justify-content-center align-items-center">
+                        </div> -->
+                    <!-- </div>  -->
+                    <div class="row  pt-2  ">
                         <div class="col-lg-12">
-                            <table class="table text-center table-striped table-light table-bordered border-primary"
+                            <table id="doctorTable" class="table text-center table-striped table-light table-bordered border-primary"
                                 style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
                                 <thead>
                                     <tr>
@@ -277,61 +279,44 @@ $name = $_SESSION['fullName'];
                                         <th scope="col">Doctor Name</th>
                                         <th scope="col">Major</th>
                                         <th scope="col">Governorate</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Phone Number</th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Hasan Sbeity</td>
-                                        <td>Dentist</td>
-                                        <td>Nabatieh</td>
-                                        <td> <a href="FeedbackPatient1.html" title="Edit"
-                                                class="btn bg-primary text-white">
-                                                <i class="fa fa-info-circle"></i>
-                                            </a>
+                                    <?php
+                                    $sql = "SELECT user.fullName ,user.id,user.phoneNumber, user.address, governorate.govname ,doctormajor.majorName  
+                                    FROM `user` 
+                                    JOIN clinic ON user.id=clinic.doctorid
+                                    JOIN doctormajor On clinic.clinicMajorid=doctormajor.id
+                                    JOIN governorate ON clinic.clinicGovid=governorate.id
+                                    
+                                    where user.roleid=2" ;
+                                    
+                                    $result = mysqli_query($conn, $sql);
 
-                                        </td>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Hussein Hodroj</td>
-                                        <td>Dietitian</td>
-                                        <td>Nabatieh</td>
-                                        <td> <a href="#FeedbackPatient" title="Edit" class="btn bg-primary text-white">
-                                                <i class="fa fa-info-circle"></i>
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Joya Estephan</td>
-                                        <td>Surgeon</td>
-                                        <td>Beirut</td>
-                                        <td> <a href="#FeedbackPatient" title="Edit" class="btn bg-primary text-white">
-                                                <i class="fa fa-info-circle"></i>
-                                            </a>
-
-                                        </td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Nour Chakaroun</td>
-                                        <td>Cardiologist</td>
-                                        <td>Nabatieh</td>
-                                        <td><a href="#FeedbackPatient" title="Edit" class="btn bg-primary text-white">
-                                                <i class="fa fa-info-circle"></i>
-                                            </a>
-
-                                        </td>
-                                        </td>
-                                    </tr>
+                                    if (mysqli_num_rows($result) > 0) {
+                                        $count = 1;
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>" . $count . "</td>";
+                                            echo "<td>" . $row['fullName'] . "</td>";
+                                            echo "<td>" . $row['majorName'] . "</td>";
+                                            echo "<td>" . $row['govname'] . "</td>";
+                                            echo "<td>" . $row['address'] . "</td>";
+                                            echo "<td>" . $row['phoneNumber'] . "</td>";
+                                            // echo" <td> <a href='' class='btn btn-primary' data-id=" .$row['id']. "><i class='fa fa-info-circle'></i>
+                                            // </a></td>";
+                                            echo "</tr>";
+                                            $count++;
+                                        }
+                                    } 
+                                    ?>  
                                 </tbody>
                             </table>
+
+
                         </div>
                     </div>
 
@@ -387,10 +372,28 @@ $name = $_SESSION['fullName'];
 
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
+    <!-- you have to take this link, it's for the data Table -->
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <!-- you have to take this link, it's for the data Table -->
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+<!-- this is the script -->
+    <script>
+            $( document ).ready(function() {
+    $('#doctorTable').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+      "iDisplayLength": 10,
+    });
+  });
+    
+    
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+</script>
 
 </body>
 

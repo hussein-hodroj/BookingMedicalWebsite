@@ -26,6 +26,9 @@ $name = $_SESSION['fullName'];
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
@@ -293,8 +296,8 @@ if ($result) {
             <th scope="row">' .++$count. '</th>
             <td>' . $govname . '</td>
             <td>
-            <button class="btn btn-primary editbtn" data-id="' . $id . '">Edit</button>
-            <button class="btn btn-danger btnDelete" data-id="' . $id . '">Delete</button>
+            <button class="btn btn-primary editbtn" data-id="' . $id . '"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-danger btnDelete" data-id="' . $id . '"><i class="fa fa-trash-alt"></i></button>
             </td>
         </tr>';
     }
@@ -426,6 +429,9 @@ if ($result) {
     <!-- Page level plugins -->
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <!-- you have to take this link, it's for the data Table -->
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
 </body>
 <script>
     $(document).ready(function() {
