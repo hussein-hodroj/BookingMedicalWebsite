@@ -49,7 +49,7 @@ $id=$_SESSION['id'];
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon ">
                     <i class="far fa-hospital"></i>
                 </div>
@@ -186,7 +186,7 @@ $id=$_SESSION['id'];
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                  <a href="/signout" type="button" class="btn btn-danger">Logout</a>
+                                  <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                                 </div>
                               </div>
                             </div>
@@ -291,14 +291,14 @@ $id=$_SESSION['id'];
                                 WHERE u.roleid = 2 AND f.patientid = $id";
                         $result = mysqli_query($conn, $sql);
                         
-                        
+                        $count=0;
                         while ($row = mysqli_fetch_assoc($result)) {
                             $id = $row["id"];
                             $doctorName = $row["doctorName"];
                             $feedback = $row["feedback"];
                                  ?>
                                     <tr>
-                                     <td><?php echo $row["id"] ?></td>
+                                     <td><?php echo ++$count ?></td>
                                      <td class="text-center " style="vertical-align: middle;"><?php echo $row["doctorName"] ?></td>
                                         <td class="text-justify " style="width: 350px;"><?php echo $row["feedback"] ?> </td>
                                         <td>

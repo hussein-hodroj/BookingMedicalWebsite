@@ -39,7 +39,7 @@ $name = $_SESSION['fullName'];
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon ">
                     <i class="far fa-hospital"></i>
                 </div>
@@ -122,11 +122,7 @@ $name = $_SESSION['fullName'];
             </div>
 
             <!-- Sidebar Message -->
-            <!-- <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div> -->
+            
 
         </ul>
         <!-- End of Sidebar -->
@@ -146,18 +142,7 @@ $name = $_SESSION['fullName'];
                     </button>
 
                     <!-- Topbar Search -->
-                    <!-- <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
+                    
                     <h3>Welcome <?php echo $name; ?></h3>
 
                     <!-- Topbar Navbar -->
@@ -226,7 +211,7 @@ $name = $_SESSION['fullName'];
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                  <a href="index.php" type="button" class="btn btn-danger">Logout</a>
+                                  <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                                 </div>
                               </div>
                             </div>
@@ -274,25 +259,25 @@ $name = $_SESSION['fullName'];
                                 </thead>
                                 <tbody>
                                     <tr >
-                                        <th scope="row "style="vertical-align: middle;">Hasan Sbeity</th>
-                                          <td class="text-center " style="vertical-align: middle;"> <b>Date:</b> MWF <br> <b> Time:</b> Before noon</td>
+                                        <th scope="row "style="vertical-align: middle;">Mostafa Baderdine</th>
+                                          <td class="text-center " style="vertical-align: middle;"> <b>Date: 04/07/2023</b> <br> <b> Time:</b> 11:00 AM</td>
                                             <td class="text-center " style="vertical-align: middle;"><b> Nabatieh</b></td>
                                             <td class="text-center " style="width: 250px; vertical-align: middle; "><b>Dentist</b></td>
                                            
                                           
                                     </tr>
                                     <tr class="table-primary">
-                                        <th scope="row "style="vertical-align: middle;">Hussein Hodroj</th>
-                                          <td class="text-center " style="vertical-align: middle;"><b>Date:</b> TTH <br> <b> Time:</b> After noon</td>
-                                            <td class="text-center " style="vertical-align: middle;"><b>Nabatieh</b></td>
+                                        <th scope="row "style="vertical-align: middle;">Mohamad Bitar</th>
+                                          <td class="text-center " style="vertical-align: middle;"><b>Date: 05/07/2023 </b>  <br> <b> Time: 09:00 AM</b></td>
+                                            <td class="text-center " style="vertical-align: middle;"><b>Saida</b></td>
                                             <td class="text-center " style="width: 250px; vertical-align: middle;"><b>Dietitian </b></td>
                                            
                                           
                                     </tr>
                                     
                                     <tr>
-                                        <th scope="row " style="vertical-align: middle;">Joya Estephan</th>
-                                          <td class="text-center " style="vertical-align: middle;"><b>Date:</b> MWF <br> <b> Time:</b> Before noon</td>
+                                        <th scope="row " style="vertical-align: middle;">Jana Shhab</th>
+                                          <td class="text-center " style="vertical-align: middle;"><b>Date: 07/07/2023</b> <br> <b> Time:</b> 01:00 PM</td>
                                             <td class="text-center " style="vertical-align: middle;"><b>Beirut</b></td>
                                             <td class="text-center " style="width: 250px; vertical-align: middle;"><b>Surgeon</b></td>
                                            
@@ -300,31 +285,19 @@ $name = $_SESSION['fullName'];
             
             
                                     <tr class="table-primary">
-                                        <th scope="row" style="vertical-align: middle;">Nour Chakaroun</th>
-                                          <td class="text-center " style="vertical-align: middle;"><b>Date:</b> TTH <br> <b> Time:</b> After noon</td>
+                                        <th scope="row" style="vertical-align: middle;">Salah Shahin</th>
+                                          <td class="text-center " style="vertical-align: middle;"><b>Date: 09/07/2023</b><br> <b> Time:</b> 10:00 AM</td>
                                             <td class="text-center" style="vertical-align: middle;"><b>Nabatieh</b></td>
-                                            <td class="text-center " style="width: 250px; vertical-align: middle;"><b>Cardiologist</b></td>
-                                           
+                                            <td class="text-center " style="width: 250px; vertical-align: middle;"><b>Cardiologist</b></td>    
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-            
-                    
-            
-            
-                    
-                               
+                    </div>      
                             </div>
                         </div>
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
+                
             <!-- End of Main Content -->
-
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -340,7 +313,9 @@ $name = $_SESSION['fullName'];
 
     </div>
     <!-- End of Page Wrapper -->
-
+    </div>
+                
+    </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

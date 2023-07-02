@@ -134,11 +134,7 @@ $name = $_SESSION['fullName'];
             </div>
 
             <!-- Sidebar Message -->
-            <!-- <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div> -->
+            
 
         </ul>
         <!-- End of Sidebar -->
@@ -158,18 +154,7 @@ $name = $_SESSION['fullName'];
                     </button>
 
                     <!-- Topbar Search -->
-                    <!--form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form-->
+                
                     <h3 class="pt-2">Welcome  <?php echo $name; ?></h3>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -237,7 +222,7 @@ $name = $_SESSION['fullName'];
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                  <a href="index.php" type="button" class="btn btn-danger">Logout</a>
+                                  <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                                 </div>
                               </div>
                             </div>
@@ -304,13 +289,16 @@ $name = $_SESSION['fullName'];
                     <tbody>
                         <?php
                                  $sql = "SELECT * FROM `doctormajor`";
+
                                  $result = mysqli_query($conn, $sql);
+                                 $count=1;
                                  while ($row = mysqli_fetch_assoc($result)) {
+                                    
                                     $id=$row["id"];
                                  ?>
                                    <tr>
                     
-                                     <td><?php echo $row["id"] ?></td>
+                                     <td><?php echo $count++ ?></td>
                                      <td><?php echo $row["majorName"] ?></td>
                                      <td>
                                      <a href="#edit_<?php echo $row["id"] ?>" class="btn bg-primary text-white btnEdit" data-bs-toggle="modal">
