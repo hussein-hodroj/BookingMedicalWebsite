@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
 
    
     $stmt->close(); 
-    header('Location: ../doctorconf.php?msg=success');
+    header('Location: ../doctorBookingconf.php?msg=success');
         exit(); 
 }
 function sendreminderemail($email, $reminder) {

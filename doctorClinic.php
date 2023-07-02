@@ -3,45 +3,28 @@ require_once 'connect.php';
 session_start();
 $id = $_SESSION['id'];
 $name = $_SESSION['fullName'];
-$sql = "SELECT c.id, c.clinicname, c.phone, g.govname, d.majorName, c.clinicFullAddress, s.clinicid,
-        GROUP_CONCAT(s.weekday) AS weekdays,
-        (SELECT s.starttime FROM schedule AS s WHERE s.clinicid = c.id ORDER BY s.starttime ASC LIMIT 1) AS starttime,
-        (SELECT s.endtime FROM schedule AS s WHERE s.clinicid = c.id ORDER BY s.endtime DESC LIMIT 1) AS endtime
-        FROM clinic AS c
-        JOIN governorate AS g ON c.clinicGovid = g.id
-        JOIN doctormajor AS d ON c.clinicMajorid = d.id
-        JOIN schedule AS s ON c.id = s.clinicid
-        WHERE c.doctorid = ? 
-        GROUP BY c.id";
-$stmt = mysqli_prepare($conn, $sql);
-if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt,$id, $clinicname, $phone, $governorate, $major, $clinicFullAddress,$clinicid, $weekdays, $starttime, $endtime);
 
-    $clinics = array();
+$sql = "SELECT c.id, c.clinicname, c.phone, g.govname, d.majorName, c.clinicFullAddress
+FROM clinic AS c
+JOIN governorate AS g ON c.clinicGovid = g.id
+JOIN doctormajor AS d ON c.clinicMajorid = d.id
+WHERE c.doctorid = '{$id}'
+GROUP BY c.id";
 
-    while (mysqli_stmt_fetch($stmt)) {
-        $clinics[] = array(
-            'id'=> $id,
-            'clinicname' => $clinicname,
-            'phone' => $phone,
-            'govname' => $governorate,
-            'majorName' => $major,
-            'clinicFullAddress' => $clinicFullAddress,
-            'clinicid' => $clinicid,
-            'weekdays' => explode(',', $weekdays),
-            'starttime' => $starttime,
-            'endtime' => $endtime
-        );
+$result = mysqli_query($conn, $sql);
+
+if ($result) {
+    $clinic = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $clinic[]=$row;
     }
 
-    mysqli_stmt_close($stmt);
+    $_SESSION['clinic'] = $clinic;
+    mysqli_free_result($result);
 } else {
     echo "Error: " . mysqli_error($conn);
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -276,15 +259,43 @@ if ($stmt) {
     <!--dashboard-->
     <div class="container-fluid">
         <div class="row gx-5 " >
-            <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6 d-flex justify-content-end align-items-end"
-               >
+            <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6 d-flex justify-content-end align-items-end">
+
                 <a href="doctorAddClinic.php" title="Add" class="btn bg-primary text-white mb-3">
                     <i class="fas fa-plus-square"></i>
                     Add clinic
                 </a>
             </div>
         </div>
-      <?php foreach ($clinics as $clinic) : ?>
+        <?php
+        $clinic = $_SESSION['clinic'];
+
+        foreach ($clinic as $row) {
+            $clinicId= $row['id'];
+            $sq = "SELECT MIN(id), weekday, timefrom, timeto FROM schedule
+            WHERE clinicid = '{$clinicId}' 
+            GROUP BY weekday
+            ORDER BY id ASC ";
+
+            $stmt = mysqli_prepare($conn, $sq);
+            if ($stmt) {
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_bind_result($stmt, $id,  $weekday, $timefrom, $timeto);
+                $clinics = array();
+                while (mysqli_stmt_fetch($stmt)) {
+                    $clinics[] = array(
+                        'id' => $id,
+                        'weekdays' =>  $weekday,
+                        'timefrom' =>  $timefrom,
+                        'timeto' =>  $timeto
+                    );
+                }
+                mysqli_stmt_close($stmt);
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
+
+        ?>
         <div class="row">
             <div class="col-lg-12 ">
                 <div class="card" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245) ">
@@ -293,65 +304,232 @@ if ($stmt) {
                         <div class="row ">
                             <div class="col-lg-12 d-flex justify-content-end align-items-end ">
                             <a href="#" title="Edit" class="btn btn-primary text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modal" style="margin-right: 8px;">
-                                    <i class="fas fa-edit"></i>
+    data-bs-target="#modal" style="margin-right: 8px;"
+    data-id="<?php echo $row['id']; ?>">
+
+    
+    <i class="fas fa-edit"></i>
+</a>
+
                                 </a>
                                 <a href="#" title="Delete" class="btn btn-danger text-white" data-bs-toggle="modal"
-                                    data-bs-target="#modalm" >
+                                    data-bs-target="#modalm" data-id="<?php echo $row['id']; ?>">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                                
                             </div>
                         </div>
                     </div>
+
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
                                 <label class="form-group mb-2">Clinic Name </label>
-                                <input type="text" class="form-control mb-3" id="text"
-                                name ="name" value="<?php echo $clinic['clinicname']; ?>" >
+                                <input type="text" class="form-control mb-3" id="text" disabled
+                                name ="name" value="<?php echo $row['clinicname']; ?>" >
                             </div>
                             <div class="col-6">
                                 <label class="form-group mb-2"> Clinic Phone Number </label>
-                                <input type="text" class="form-control mb-3" id="text"
-                                name="phone" value="<?php echo $clinic['phone'];?>">
+                                <input type="text" class="form-control mb-3" id="text" disabled
+                                name="phone" value="<?php echo $row['phone'];?>">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <label class="form-group mb-2"> Governorate </label>
-                                <input type="text" class="form-control mb-3" id="text"
-                                name="governorate"  value="<?php echo $clinic['govname'];?>">
+                                <input type="text" class="form-control mb-3" id="text" disabled
+                                name="governorate"  value="<?php echo $row['govname'];?>">
                             </div>
                             <div class="col-6">
                                 <label class="form-group mb-2"> Major </label>
-                                <input type="text" class="form-control mb-3" id="text"
-                                name="major" value="<?php echo $clinic['majorName'];?>">
+                                <input type="text" class="form-control mb-3" id="text" disabled
+                                name="major" value="<?php echo $row['majorName'];?>">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <label class="form-label mb-2"> Full Address </label>
-                                <input type="text" class="form-control mb-3" id="text"
-                                 name="address"  value="<?php echo $clinic['clinicFullAddress'];?>">
-                            </div>
-                            
-                            
+                                <input type="text" class="form-control mb-3" id="text" disabled
+                                 name="address"  value="<?php echo $row['clinicFullAddress'];?>">
+                            </div>      
                         </div>
+                       
+                        <!-------------------- ManageSchedule------------------------- -->
                         <div class="row">
-                        <div class="col-lg-6 " style="padding-top: 25px; padding-bottom: 35px;">
+                            <div class="col-lg-6 " style="padding-top: 25px; padding-bottom: 35px;">
                             <h5 class="border text-primary" style="display: flex; align-items: center; padding-left: 12px; 
                             border-style: solid; border-radius: 10px; height: 40px;"> 
                                 Manage Schedule: </h5>                            
-                       </div>
-                       <div class="col-lg-6 " style="padding-top: 25px; padding-bottom: 35px;">
-                       <a href="#" title="Edit" class="btn btn-primary text-white" style="margin-right: 8px;">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                          </div>
+                            </div>
+                            <div class="col-lg-3 " style="padding-top: 25px; padding-bottom: 35px;">
+                            <button type="submit" title="Edit" class="btn btn-primary text-white"
+                            data-bs-toggle="modal" data-bs-target="#modalop"
+                            data-id="<?php echo $row ['id'];?>" >Edit</button>
+                            </div>
+                            
+                            <div class="col-lg-3 " style="padding-top: 25px; padding-bottom: 35px;">
+                            <form action="doctor/resetschedule.php" method="POST">
+                            <input type="hidden" name="updateid" value="<?php echo $row ['id']; ?>">
+                            <button type="submit" title="Reset" name="reset" class="btn btn-success text-white"
+                            data-id="<?php echo $row ['id'];?>">Reset</button>
+        </div>
+                    </form>
+                            
+                          
+               </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                  <div class="table-responsive">
+                  <table class="table table-bordered" id="dynamic_field">
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tbody>
+
+
+    <?php foreach ($clinics as $clinic) { ?>
+        <tr>
+            <td><?php echo  $clinic['weekdays']; ?></td>
+            <td><?php echo $clinic['timefrom']; ?></td>
+            <td><?php echo  $clinic['timeto']; ?></td>
+        </tr>
+    <?php } ?>
+    </tbody>
+
+</table>
                     </div>
-      </div>
-                    <div class="col-lg-12">
+                </div>
+                </div>
+                </div></div></div></div>
+                <?php
+                    }
+                    ?>
+              
+    </div>
+    <?php
+        $clinic = $_SESSION['clinic'];
+
+        foreach ($clinic as $row) {?>
+    <div class="modal fade" id="modal"  tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Edit Clinic Information</h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="doctor/editinputs.php" method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-group mb-2">Clinic Name</label>
+                            <input type="text" class="form-control" name="name" id="txtName"
+                            value="<?php echo $row['clinicname'];?>"  placeholder="Add Your Clinic Name">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-group mb-2">Clinic Phone Number</label>
+                            <input type="text" class="form-control" name="phone" id="txtPhone"
+                            value="<?php echo $row['phone'];?>"   placeholder="Add Your Clinic Phone Number">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-group">Governorate</label>
+                            <select class="form-control" name="governorate" id="txtGov">
+                                <option selected disabled>Please select Governorate</option>
+                                <?php
+                                // Fetch governorate IDs and names from the governorate table
+                                $governorateQuery = "SELECT id, govname FROM governorate";
+                                $governorateResult = mysqli_query($conn, $governorateQuery);
+                                if ($governorateResult && mysqli_num_rows($governorateResult) > 0) {
+                                    while ($govRow = mysqli_fetch_assoc($governorateResult)) {
+                                        $govid = $govRow['id'];
+                                        $govname = $govRow['govname'];
+                                        echo "<option value='$govid'>$govname</option>";
+                                    }
+                                } else {
+                                    echo "<option disabled selected>This governorate does not exist</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-group">Major</label>
+                            <select class="form-control" name="major" id="txtMajor">
+                                <option selected disabled>Please select your major</option>
+                                <?php
+                                // Fetch major IDs and names from the doctormajor table
+                                $majorQuery = "SELECT id, majorName FROM doctormajor";
+                                $majorResult = mysqli_query($conn, $majorQuery);
+                                if ($majorResult && mysqli_num_rows($majorResult) > 0) {
+                                    while ($majorRow = mysqli_fetch_assoc($majorResult)) {
+                                        $majorid = $majorRow['id'];
+                                        $majorName = $majorRow['majorName'];
+                                        echo "<option value='$majorid'>$majorName</option>";
+                                    }
+                                } else {
+                                    echo "<option disabled selected>This major does not exist</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label mb-2">Full Address</label>
+                            <input type="text" class="form-control" name="address" id="txtAddress"
+                              value="<?php echo $row['clinicFullAddress'];?>"  placeholder="Add Your Clinic Address">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="hidden" name="updateid" value="<?php echo $row['id']; ?>">
+                    <button type="submit" name="edit" class="btn btn-primary" id="btnSave">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+            <div class="modal fade" id="modalm" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalmLabel">Delete Clinic</h5>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    <form action="doctor/deleteclinic.php" method="POST">
+                        <p> Are you sure you want to delete this clinic?</p>
+            </div>
+            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="hidden" name="deleteid" value="<?php echo $row['id']; ?>">
+                            <button type="submit" name="delete" class="btn btn-danger" id="btnSave">Delete</button>
+                        </div>
+                    </div>
+                            </form>
+                </div>
+            </div>
+            <div class="modal fade" id="modalop" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="modalmLabel">Edit schedule</h5>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    <form action="doctor/editschedule.php" method="POST">
+                        <p> Edit clinic schedule </p>
+                        <div class="col-lg-12">
     <div class="table-responsive">
         <table class="table table-bordered" id="dynamic_field">
             <thead>
@@ -362,127 +540,39 @@ if ($stmt) {
                 </tr>
             </thead>
             <tbody>
-                <?php if ($clinicid === $id):?>
-            <?php $weekdays = array_unique($clinic['weekdays']); ?>
-                <?php foreach ($weekdays as $weekday) : ?>
-                    <tr>
-                        <td><?php echo $weekday; ?></td>
-                        <?php foreach ($clinic['weekdays'] as $key => $day) : ?>
-                            <?php if ($day === $weekday) : ?>
-                                <td><?php echo $clinic['starttime']; ?></td>
-                                <td><?php echo $clinic['endtime']; ?></td>
-                                <?php break; ?>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </tr>
-                <?php endforeach; ?>
-                <?php endif;?>
-                <?php endforeach; ?>
-            </tbody>
+            <?php $weekday = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']; ?>
+            <?php for ($i = 0; $i < count($weekday); $i++): ?>
+                <tr>
+                    <td>
+                        <?php echo $weekday[$i]; ?>
+                        <input type="hidden" name="weekday<?php echo $i+1; ?>" value="<?php echo $weekday[$i]; ?>">
+                    </td>
+                    <td>
+                    <input type="time" class="form-control" id="time" name="start<?php echo $i+1; ?>">
+                    </td>
+                    <td>
+                    <input type="time" class="form-control" id="time" name="end<?php echo $i+1; ?>">                    </td>
+                </tr>
+            <?php endfor; ?>
+        </tbody>
         </table>
     </div>
 </div>
-<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Edit Clinic Informations</h5>
-                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <label class="form-group mb-2"> Clinic Name </label>
-                                <input type="text" class="form-control " id="txtName"
-                                    placeholder="Add Your Clinic Name">
-                            </div>
-                            <div class="col-6">
-                                <label class="form-group mb-2"> Clinic Phone Number </label>
-                                <input type="text" class="form-control " id="txtPhone"
-                                    placeholder="Add Your Clinic Phone Number">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                            <label class="form-group">GOVERNORATE</label>
-            <select class="form-control" id="txtGov" name="governorate">
-            <option selected disabled>please select Governorate</option>
-                <?php
-                // Fetch governorate IDs and names from the governorate table
-                $governorateQuery = "SELECT id, govname FROM governorate";
-                $governorateResult = mysqli_query($conn, $governorateQuery);
-                if ($governorateResult && mysqli_num_rows($governorateResult) > 0) {
-                    while ($govRow = mysqli_fetch_assoc($governorateResult)) {
-                        $govid = $govRow['id'];
-                        $govname = $govRow['govname'];
-                        echo "<option value='$govid'>$govname</option>";
-                    }
-                } else {
-                    echo "<option disabled selected>This governorate does not exist</option>";
-                }
-                ?>
-            </select>
-                            </div>
-                            <div class="col-6">
-                            <label class="form-group">MAJOR</label>
-            <select class="form-control" id="txtMajor" name="major">
-            <option selected disabled>please select your major</option>
-                <?php
-                // Fetch major IDs and names from the doctormajor table
-                $majorQuery = "SELECT id, majorName FROM doctormajor";
-                $majorResult = mysqli_query($conn, $majorQuery);
-                if ($majorResult && mysqli_num_rows($majorResult) > 0) {
-                    while ($majorRow = mysqli_fetch_assoc($majorResult)) {
-                        $majorid = $majorRow['id'];
-                        $majorName = $majorRow['majorName'];
-                        echo "<option value='$majorid'>$majorName</option>";
-                    }
-                } else {
-                    echo "<option disabled selected>This major does not exist</option>";
-                }
-                ?>
-            </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <label class="form-label mb-2"> Full Address </label>
-                                <input type="text" class="form-control" id="txtAddress"
-                                    placeholder="Add Your Clinic Address">
-                            </div>
-                            
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="btnSave">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="modalm" tabindex="-1" aria-labelledby="modalmLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalmLabel">Edit Clinic Informations</h5>
-                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p> Are you sure you want to delete this clinic?</p>
             </div>
             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" id="btnSave">Delete</button>
+                            <input type="hidden" name="deleteid" value="<?php echo $row['id']; ?>">
+                            <button type="submit" name="save" class="btn btn-danger" id="btnSave">Save</button>
                         </div>
                     </div>
-                </div>
-            </div>
+                            </form>
+                            </div>
+                            </div>
+            <?php
+                    }
+                    ?>
 
-
-
+            
   </div>
     </div>
 
@@ -491,7 +581,7 @@ if ($stmt) {
 
 </div>
 <!-- End of Main Content -->
-
+            </div>
 <!-- Footer -->
 <footer class="sticky-footer bg-white">
     <div class="container my-auto">

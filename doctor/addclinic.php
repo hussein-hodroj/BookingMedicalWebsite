@@ -19,9 +19,8 @@ if (isset($_POST['submit'])) {
     // Retrieve the newly inserted clinic's ID
     $clinicId = mysqli_insert_id($conn);;
 
-    // Insert the schedule information into the Schedule table for each day
-$days = ['day1', 'day2', 'day3', 'day4', 'day5'];
-
+  // Insert the schedule information into the Schedule table for each day
+  $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 // Insert schedule data into the schedule table
 for ($i = 1; $i <= 5; $i++) {
     $day = $_POST['day' . $i];
@@ -33,10 +32,9 @@ for ($i = 1; $i <= 5; $i++) {
     $start = new DateTime($startTime);
     $end = new DateTime($endTime);
     $slots = [];
-    while ($start <= $end) {
+    while ($start < $end) {
         $slotStartTime = $start->format('H:i');
-        $start->add($interval);
-        $slotEndTime = $start->format('H:i');
+        $slotEndTime = $start->add($interval)->format('H:i');
         $slots[] = [$slotStartTime, $slotEndTime];
     }
 
@@ -46,11 +44,12 @@ for ($i = 1; $i <= 5; $i++) {
         $slotEndTime = $slot[1];
 
         // Insert schedule data
-        $scheduleInsertQuery = "INSERT INTO schedule (clinicid, weekday, starttime, endtime) 
-                                VALUES ('$clinicId', '$day', '$slotStartTime', '$slotEndTime')";
+        $scheduleInsertQuery = "INSERT INTO schedule (clinicid, weekday, starttime, endtime, timefrom, timeto) 
+                                VALUES ('$clinicId', '$day', '$slotStartTime', '$slotEndTime', '$startTime', '$endTime')";
         mysqli_query($conn, $scheduleInsertQuery);
     }
 }
+
 header("location:../doctorAddClinic.php");
 
 }

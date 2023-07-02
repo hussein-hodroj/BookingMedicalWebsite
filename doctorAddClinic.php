@@ -337,6 +337,7 @@ $name = $_SESSION['fullName'];
         <div class="mb-4">
             <label class="form-group">GOVERNORATE</label>
             <select class="form-control" id="txtGov" name="governorate">
+            <option selected disabled>please select the governorate</option>
                 <?php
                 // Fetch governorate IDs and names from the governorate table
                 $governorateQuery = "SELECT id, govname FROM governorate";
@@ -360,6 +361,7 @@ $name = $_SESSION['fullName'];
         <div class="mb-4">
             <label class="form-group">MAJOR</label>
             <select class="form-control" id="txtMajor" name="major">
+            <option selected disabled>please select your major</option>
                 <?php
                 // Fetch major IDs and names from the doctormajor table
                 $majorQuery = "SELECT id, majorName FROM doctormajor";
@@ -412,26 +414,22 @@ $name = $_SESSION['fullName'];
                 </tr>
             </thead>
             <tbody>
-                <?php for ($i = 1; $i <= 5; $i++): ?>
+            <?php $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']; ?>
+            <?php for ($i = 0; $i < count($days); $i++): ?>
                 <tr>
                     <td>
-                        <select class="form-control" name="day<?php echo $i; ?>">
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                        </select>
+                        <?php echo $days[$i]; ?>
+                        <input type="hidden" name="day<?php echo $i+1; ?>" value="<?php echo $days[$i]; ?>">
                     </td>
                     <td>
-                        <input type="time" class="form-control" name="start<?php echo $i; ?>" required>
+                        <input type="time" class="form-control" name="start<?php echo $i+1; ?>">
                     </td>
                     <td>
-                        <input type="time" class="form-control" name="end<?php echo $i; ?>" required>
+                        <input type="time" class="form-control" name="end<?php echo $i+1; ?>">
                     </td>
                 </tr>
-                <?php endfor; ?>
-            </tbody>
+            <?php endfor; ?>
+        </tbody>
         </table>
     </div>
 </div>

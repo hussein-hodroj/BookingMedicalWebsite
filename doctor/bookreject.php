@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
     $stmt->bind_param("i", $id); 
     $stmt->execute();
     $stmt->close(); 
-    header('Location: ../doctorconf.php?msg=success');
+    header('Location: ../doctorBookingConf.php?msg=success');
         exit(); 
 }
 

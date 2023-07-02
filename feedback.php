@@ -42,18 +42,19 @@ if ($stmt) {
     <meta name="author" content="">
 
     <title>BookMyCare</title>
-    <!-- Favicon -->
-    <link href="img/logo.png" rel="icon">
+     <!-- Favicon -->
+     <link href="img/logo.png" rel="icon">
 
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+<!-- Custom styles for this template-->
+<link href="css/sb-admin-2.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 
 </head>
 
@@ -291,7 +292,7 @@ if ($stmt) {
                         <form id="deletefeedback" action="admin/deletefeedback.php" method="POST">
                             <div id="alertcol">
                             </div>
-                            <table class="table text-center table-striped table-light  table-bordered" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
+                            <table id="feedback" class="table text-center table-striped table-light  table-bordered" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
                                 <thead>
                                     <tr class="table-primary">
             
@@ -345,6 +346,16 @@ if ($stmt) {
                         </div>
                         
                                 </form>
+                                <?php
+                                          if (isset($_GET["msg"])) {
+                                            $msg = $_GET["msg"];
+                                            echo '<div id="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
+                                        }?>
+                                        <?php
+                                          if (isset($_GET["msgemail"])) {
+                                            $msg = $_GET["msgemail"];
+                                            echo '<div id="successMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
+                                        }?> 
                 </div>
                 <!-- /.container-fluid -->
 
@@ -390,7 +401,38 @@ if ($stmt) {
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
 
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
 
+<!-- this is the script -->
+<script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+    <script>
+       $(document).ready(function() {
+        $('#successMessage').show();
+          setTimeout(function() {
+            $('#successMessage').hide();
+          }, 3000);
+        });
+    </script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+            $( document ).ready(function() {
+    $('#feedback').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+      "iDisplayLength": 10,
+    });
+  }); 
+  </script>
     
 </body>
 
