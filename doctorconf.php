@@ -308,7 +308,7 @@ if ($stmt) {
                 </button>
             </td>
             <td>
-    <form action="admin/drconfirm.php" method="POST">
+            <form action="admin/drconfirm.php" method="POST">
        <input type="hidden" name="updateid" value="<?php echo $user ['id']; ?>">
         <button type="submit" class="btn btn-primary  text-white" name="accept" value="accept">
             <i class= "fas fa-check"></i></button>
@@ -375,18 +375,17 @@ if ($stmt) {
         </div>
     </div>
 </div>
-
-        </form>
-        <?php
+<?php
                                           if (isset($_GET["msg"])) {
                                             $msg = $_GET["msg"];
-                                            echo '<div id="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
+                                            echo  '<div id="messagesuccess" class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
                                         }?>
                                         <?php
                                           if (isset($_GET["msgemail"])) {
                                             $msg = $_GET["msgemail"];
-                                            echo '<div id="successMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
+                                            echo '<div id="messagesuccess" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
                                         }?> 
+        </form>
     </div>
     <!-- /.container-fluid -->
 
@@ -445,18 +444,7 @@ if ($stmt) {
            
            
 </script>
-<script
-  src="https://code.jquery.com/jquery-3.7.0.js"
-  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-  crossorigin="anonymous"></script>
-    <script>
-       $(document).ready(function() {
-        $('#successMessage').show();
-          setTimeout(function() {
-            $('#successMessage').hide();
-          }, 3000);
-        });
-    </script>
+ 
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
 <!-- this is the script -->
@@ -474,7 +462,18 @@ if ($stmt) {
     });
   }); 
   </script>
-
+<script>
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+    <script>
+       $(document).ready(function() {
+        $('#messagesuccess').show();
+          setTimeout(function() {
+            $('#messagesuccess').hide();
+          }, 3000);
+        });
+    </script>
 </body>
 
 </html>
