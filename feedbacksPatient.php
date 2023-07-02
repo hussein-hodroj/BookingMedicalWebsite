@@ -60,7 +60,7 @@ $id=$_SESSION['id'];
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
-                <a class="nav-link" href="dashboardPatient.ph">
+                <a class="nav-link" href="dashboardPatient.php">
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span></a>
             </li>
