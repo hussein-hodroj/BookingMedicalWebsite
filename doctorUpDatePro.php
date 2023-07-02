@@ -205,7 +205,7 @@ $name = $_SESSION['fullName'];
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                        <a href="index.php" type="button" class="btn btn-danger">Logout</a>
+                                        <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                                     </div>
                                 </div>
                             </div>
