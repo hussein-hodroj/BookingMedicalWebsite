@@ -117,7 +117,7 @@ if (mysqli_num_rows($result) == 1) {
             </li> 
 
             <li class="nav-item">
-                <a class="nav-link" href="pappointment.php">
+                <a class="nav-link" href="appointmentPatient.php">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Appointments</span></a>
             </li>
@@ -241,7 +241,7 @@ if (mysqli_num_rows($result) == 1) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                        <a href="index.php" type="button" class="btn btn-danger">Logout</a>
+                                        <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                                     </div>
                                 </div>
                             </div>
