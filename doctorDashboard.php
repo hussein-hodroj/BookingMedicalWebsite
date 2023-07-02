@@ -263,6 +263,11 @@ if (mysqli_num_rows($result) == 1) {
                     </div>
 
                     <!-- Content Row -->
+                    <div class="row d-flex justify-content-center">
+                    <img src="img/logo.png" class="mb-3" width="500" height="500"> 
+
+
+                    </div>
 
                     <!-- <div class="row">
                         

@@ -59,7 +59,7 @@ if ($stmt) {
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 
 </head>
 
@@ -285,7 +285,7 @@ if ($stmt) {
     
         <div class="row  ">
             <div class="col-lg-12">
-                <table class="table table-striped table-light table-bordered border-primary" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
+                <table id="table" class="table table-striped table-light table-bordered border-primary" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -353,12 +353,12 @@ if ($stmt) {
         <?php
                                           if (isset($_GET["msg"])) {
                                             $msg = $_GET["msg"];
-                                            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                            echo '<div id="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
                                         }?>
                                         <?php
                                           if (isset($_GET["msgemail"])) {
                                             $msg = $_GET["msgemail"];
-                                            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                            echo '<div id="successMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
                                         }?> 
                         
                                     
@@ -384,8 +384,18 @@ if ($stmt) {
                     </form>
                 </div>
             </div>
+            <?php
+                                          if (isset($_GET["msg"])) {
+                                            $msg = $_GET["msg"];
+                                            echo '<div id="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
+                                        }?>
+                                        <?php
+                                          if (isset($_GET["msgemail"])) {
+                                            $msg = $_GET["msgemail"];
+                                            echo '<div id="successMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
+                                        }?>    
         </div>
-                        
+         
 
        
         
@@ -460,9 +470,36 @@ if ($stmt) {
    
   });
 });
-
 </script>
-
+<script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+    <script>
+       $(document).ready(function() {
+        $('#successMessage').show();
+          setTimeout(function() {
+            $('#successMessage').hide();
+          }, 3000);
+        });
+    </script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+<!-- this is the script -->
+    <script>
+            $( document ).ready(function() {
+    $('#table').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+      "iDisplayLength": 10,
+    });
+  }); 
+  </script>
 </body>
 
 </html>

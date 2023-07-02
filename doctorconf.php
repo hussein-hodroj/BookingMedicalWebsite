@@ -50,7 +50,7 @@ if ($stmt) {
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
- 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body id="page-top">
@@ -281,7 +281,7 @@ if ($stmt) {
         <div class="row  d-flex justify-content-center align-items-center">
             <div class="col-lg-12">
                 
-                <table class="table text-center table-striped table-light table-bordered border-primary" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
+                <table id="table" class="table text-center table-striped table-light table-bordered border-primary" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -309,13 +309,16 @@ if ($stmt) {
             </td>
             <td>
     <form action="admin/drconfirm.php" method="POST">
-        <input type="hidden" name="updateid" value="<?php echo $user ['id']; ?>">
-        <button type="submit" class="btn btn-primary" name="accept" value="accept">Accept</button>
-    </form>
+       <input type="hidden" name="updateid" value="<?php echo $user ['id']; ?>">
+        <button type="submit" class="btn btn-primary  text-white" name="accept" value="accept">
+            <i class= "fas fa-check"></i></button>
+    
               
-    <a href="#" title="Reject" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#modalm" data-email="<?php echo $user['email']; ?>">
+    <button type="button" title="Reject" class="btn bg-primary text-white" data-bs-toggle="modal"
+     data-bs-target="#modalm" data-email="<?php echo $user['email']; ?>">
     <i class="fas fa-times"></i>
-</a>
+    </button>
+    </form> 
             </td>
         </tr>
     <?php endforeach; ?>
@@ -372,17 +375,18 @@ if ($stmt) {
         </div>
     </div>
 </div>
-<?php
+
+        </form>
+        <?php
                                           if (isset($_GET["msg"])) {
                                             $msg = $_GET["msg"];
-                                            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                            echo '<div id="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
                                         }?>
                                         <?php
                                           if (isset($_GET["msgemail"])) {
                                             $msg = $_GET["msgemail"];
-                                            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                            echo '<div id="successMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">' . $msg . '</div>';
                                         }?> 
-        </form>
     </div>
     <!-- /.container-fluid -->
 
@@ -441,8 +445,35 @@ if ($stmt) {
            
            
 </script>
- 
-
+<script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+    <script>
+       $(document).ready(function() {
+        $('#successMessage').show();
+          setTimeout(function() {
+            $('#successMessage').hide();
+          }, 3000);
+        });
+    </script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+<!-- this is the script -->
+    <script>
+            $( document ).ready(function() {
+    $('#table').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+      "iDisplayLength": 10,
+    });
+  }); 
+  </script>
 
 </body>
 
