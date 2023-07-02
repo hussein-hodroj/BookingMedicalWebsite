@@ -5,102 +5,79 @@ $name = $_SESSION['fullName'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>BookMyCare</title>
     <!-- Favicon -->
     <link href="img/logo.png" rel="icon">
-
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
-
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon ">
                     <i class="far fa-hospital"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">BookMyCare</div>
             </a>
-
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
                 <a class="nav-link" href="dashboardPatient.php">
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span></a>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
-
             <!-- Heading -->
             <div class="sidebar-heading">
                 Profile
             </div>
-
-            
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link" href="pUpdateProfile.php">
                     <i class="fas fa-user-edit"></i>
                     <span>Update Profile</span></a>
             </li>
-
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link" href="pEditpassword.php">
                     <i class="fas fa-user-cog"></i>
                     <span>Edit Password</span></a>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
-
             <!-- Heading -->
             <div class="sidebar-heading">
                 Patient Permissions
             </div>
-
-
             <!-- Nav Item -->
-
             <li class="nav-item active">
                 <a class="nav-link" href="patientbook.php">
                     <i class="fas fa-calendar-plus"></i>
                     <span>Add Booking</span></a>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link" href="findDoctor.php">
                     <i class=" fas fa-user-md"></i>
                     <span>Find Doctors</span></a>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link" href="appointmentPatient.php">
                     <i class="fas fa-calendar-alt"></i>
@@ -113,54 +90,25 @@ $name = $_SESSION['fullName'];
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
-
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-            <!-- Sidebar Message -->
-            <!-- <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div> -->
-
         </ul>
         <!-- End of Sidebar -->
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <!-- <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
-                    <h3 class="pt-2">Welcome <?php echo $name; ?></h3>
-
+                    <h3 class="pt-2">Welcome <?php echo $name;?></h3>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
@@ -184,31 +132,24 @@ $name = $_SESSION['fullName'];
                                 </form>
                             </div>
                         </li>
-
                         <!-- Nav Item - Alerts -->
-                        
-
                         <!-- Nav Item - User Information -->
                         <li class="nav-item ">
                             <a class="nav-link">
                                 <img class="img-profile rounded-circle" src="img/logo.png">
                             </a>
                         </li>
-
                         <div class="topbar-divider d-none d-sm-block"></div>
-
                         <li class="nav-item">
                               <a class="nav-link" title="Full screen" data-widget="fullscreen" href="#" role="button">
                                 <i class="fa fa-expand" style="font-size:110%"></i>
                               </a>
                             </li>
-
                             <li class="nav-item">
                             <a class="nav-link" title="Logout"  data-toggle="modal" data-target="#logout" role="button">
                               <i class="fas fa-sign-out-alt" style='font-size:110%'></i>
                             </a>
                             </li>
-
                         <!-- logout modal -->
                         <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -224,157 +165,156 @@ $name = $_SESSION['fullName'];
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                  <a href="index.php" type="button" class="btn btn-danger">Logout</a>
+                                  <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <!-- end logout -->
-
-
-                        
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Add Booking</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active"><a href="#">Add Booking</a></li>
+        </ol>
+    </div>
+    <div class="container">
+        <div class="row gy-4 mt-5">
+            <?php
+            $query = "SELECT id, govname FROM governorate WHERE 1 ";
+            $result = mysqli_query($conn, $query);
+            if ($result) {
+                $optionsGov = '';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $govId = $row['id'];
+                    $govName = $row['govname'];
+                    $optionsGov .= "<option value='$govId'>$govName</option>";
+                }
+            } else {
+                $optionsGov = "<option disabled >No governorate available</option>";
+            }
+            ?>
+            <div class="col-6">
+                <h4 class="form-group">Select The Governorate</h4>
+                <form method="post">
+                    <select class="form-control" name="selectGov" onchange="this.form.submit()">
+                        <option hidden>choose</option>
+                        <option value="all">All</option>
+                        <?php echo $optionsGov; ?>
+                    </select>
+                </form>
+            </div>
+            <?php
+            $query = "SELECT id, majorName FROM doctormajor WHERE 1 ";
+            $result = mysqli_query($conn, $query);
+            if ($result) {
+                $optionsMajor = '';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $majorId = $row['id'];
+                    $majorName = $row['majorName'];
+                    $optionsMajor .= "<option value='$majorId'>$majorName</option>";
+                }
+            } else {
+                $optionsMajor = "<option disabled selected>No majors available</option>";
+            }
+            ?>
+            <div class="col-6">
+                <h4 class="form-group">Select The Major</h4>
+                <form method="post">
+                    <select class="form-control" name="selectMajor" onchange="this.form.submit()">
+                        <option hidden>choose</option>
+                        <option value="all">All</option>
+                        <?php echo $optionsMajor; ?>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12">
+                <table class="table text-center table-striped table-light table-bordered border-primary" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Doctor Name</th>
+                            <th scope="col">Major</th>
+                            <th scope="col">Governorate</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $whereClause = '';
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Add Booking</h1>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">Home</li>
-                            <li class="breadcrumb-item active"><a href="#">Add Booking</a></li>
-                        </ol>
-                    </div>
+                        $selectGov = isset($_POST['selectGov']) ? $_POST['selectGov'] : 'all';
+                        $selectMajor = isset($_POST['selectMajor']) ? $_POST['selectMajor'] : 'all';
+                        
+                        
 
-                   
-                    <div class="container">
-                        <div class="row gy-4 mt-5"> 
-                           <div class="col-6">
-                            <h4 class="form-group"> Select The Governorate </h4> 
-                            <select class="form-control" data-show-subtext="true" data-live-search="true">
-                                <option data-subtext="All">All</option>
-                                <option data-subtext="Beirut">Beirut</option>
-                                <option data-subtext="Nabatieh">Nabatieh</option>
-                                <option data-subtext="Akkar">Akkar</option>
-                                <option data-subtext="Baalbeck">Baalbeck</option>
-                                <option data-subtext="Beqaa">Beqaa</option>
-                                <option data-subtext="Keserwan-Jbeil">Keserwan-Jbeil</option>
-                                <option data-subtext="Mount Lebanon">Mount Lebanon</option>
-                                <option data-subtext="North">North</option>
-                                <option data-subtext="South">South</option>
-
-                              </select>
-
-                           </div>
-                           <div class="col-6">
-                            <h4 class="form-group"> Select The Major </h4> 
-                            <select class="selectpicker form-control" data-show-subtext="true" data-live-search="true">
-                                <option data-subtext="All">All</option>
-                                <option data-subtext="Dentist">Dentist</option>
-                                <option data-subtext="Dietitian">Dietitian</option>
-                                <option data-subtext="Surgeon">Surgeon</option>
-                                <option data-subtext="Cardiologist">Cardiologist</option>
-                                <option data-subtext="Neurologist">Neirologist</option>
-                                <option data-subtext="Cosmetic">Cosmetic</option>
-                                <option data-subtext="Public Health">Public Health</option>
-                                <option data-subtext="Gynecologyst">Gynecologist</option>
-
-                              </select>
-
-                           </div>
-                        </div>
-                        <div class="row mt-5">
-                            <div class="col-12">
-                                <table class="table text-center table-striped table-light table-bordered border-primary" style="box-shadow: 0 0 10px 0 rgba(24, 117, 216, 0.5);border-top: solid rgb(83, 158, 245)">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Doctor Name</th>
-                                            <th scope="col">Major</th>
-                                            <th scope="col">Governorate</th>
-                                            <th scope="col">Address</th>
-                                            <th scope="col">Phone Number</th>
-                                            <th scope="col">Action</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Fadi aantar</td>
-                                            <td>Dentist</td>
-                                            <td>Beirut</td>
-                                            <td>Foron Al-shebbek/Picasso building </td>
-                                            <td>+961 81578962</td>
-                                            <td> <a href="clickbook.html" title="booking" class="btn bg-primary text-white">
-                                                    <i class="fas fa-calendar-plus"></i>
-                                                </a>
-                                                
-                                            </td>
-                
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>lara rashid</td>
-                                            <td>Dietitian</td>
-                                            <td>Nabatieh</td>
-                                            <td>Building Face To Halawiyat ALSharek </td>
-                                            <td>+961 596321</td>
-                                            <td><a href="clickbook.html" title="booking" class="btn bg-primary text-white">
-                                                    <i class="fas fa-calendar-plus"></i>
-                                                </a>
-                                                
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>nour rishani</td>
-                                            <td>Surgeon</td>
-                                            <td>South</td>
-                                            <td>South </td>
-                                            <td>+961 81578962</td>
-                                            <td> <a href="clickbook.html" title="booking" class="btn bg-primary text-white">
-                                                    <i class="fas fa-calendar-plus"></i>
-                                                </a>
-                                                
-                                            </td>
-                
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Nour Chakaroun</td>
-                                            <td>Neurologist</td>
-                                            <td>Beirut</td>
-                                            <td>Foron Al-shebbek/Picasso building </td>
-                                            <td>+961 70856987</td>
-                                            <td> <a href="clickbook.html" title="booking" class="btn bg-primary text-white">
-                                                    <i class="fas fa-calendar-plus"></i>
-                                                </a>
-                                                
-                                            </td>
-                
-                                        </tr>
-                                        </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                        if ($selectGov != 'all' && $selectMajor != 'all') {
+                            $whereClause = "WHERE clinic.clinicGovid = '$selectGov' AND clinic.clinicMajorid = '$selectMajor'";
+                        } elseif ($selectGov != 'all') {
+                            $whereClause = "WHERE clinic.clinicGovid = '$selectGov'";
+                        } elseif ($selectMajor != 'all') {
+                            $whereClause = "WHERE clinic.clinicMajorid = '$selectMajor'";
+                        }
+                        $query = "SELECT user.fullName, user.id, doctormajor.majorName, governorate.govname, user.address, user.phoneNumber
+                                    FROM `user`
+                                    JOIN clinic ON user.id = clinic.doctorid
+                                    JOIN doctormajor ON clinic.clinicMajorid = doctormajor.id
+                                    JOIN governorate ON clinic.clinicGovid = governorate.id
+                                    $whereClause";
+                        $result = mysqli_query($conn, $query);
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            $count = 1;
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $doctorName = $row['fullName'];
+                                $major = $row['majorName'];
+                                $governorate = $row['govname'];
+                                $address = $row['address'];
+                                $phoneNumber = $row['phoneNumber'];
+                                echo "<tr>
+                                        <th scope='row'>$count</th>
+                                        <td>$doctorName</td>
+                                        <td>$major</td>
+                                        <td>$governorate</td>
+                                        <td>$address</td>
+                                        <td>$phoneNumber</td>
+                                        <td>
+                                        <form method='post' action='clickbook.php'>
+                                        <input type='hidden' name='doctorName' value='$doctorName'>
+                                        <input type='hidden' name='major' value='$major'>
+                                        <input type='hidden' name='governorate' value='$governorate'>
+                                        <button type='submit' class='btn bg-primary text-white' title='booking'>
+                                            <i class='fas fa-calendar-plus'></i>
+                                        </button>
+                                    </form>
+                                        </td>
+                                    </tr>";
+                                $count++;
+                            }
+                        } else {
+                            echo "<tr><td colspan='7'>No data available</td></tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-
-
-
-                </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
-
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -384,36 +324,26 @@ $name = $_SESSION['fullName'];
                 </div>
             </footer>
             <!-- End of Footer -->
-
         </div>
         <!-- End of Content Wrapper -->
-
     </div>
     <!-- End of Page Wrapper -->
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
-
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
-
 </body>
 
 </html>

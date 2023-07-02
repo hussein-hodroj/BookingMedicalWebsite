@@ -65,10 +65,10 @@ require_once 'connect.php';
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small text-danger" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small text-danger" href="forgot-password.php">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="register.php">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>

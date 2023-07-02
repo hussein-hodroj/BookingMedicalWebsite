@@ -1,7 +1,6 @@
 <?php 
     include 'connect.php'
     
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -302,20 +301,8 @@
 <br>
       </div>
     </section>
-<!-- End Contact Section -->
-<!-- ======= Footer ======= -->
-<!-- <footer class="shadow-lg rounded" style="background-color:#fff;">
-<div class="container-fluid text-light border-top py-4 ">
-        <div class="container mt-auto" >
-            <div class="row g-5">
-                <div class="col text-center">
-                   <i> <h6 style="color:#2c4964;"><script>document.write(new Date().getFullYear())</script> &copy; BookMyCare</h6></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer> -->
-<!-- ======= End Footer ======= -->
+
+
  <div class="container-fluid bg-dark text-light">
         <div class="container py-5">
             <div class="row g-6 ms-5">

@@ -22,7 +22,7 @@ if (isset($_POST['submit'])) {
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->Subject = 'Here is the subject';
-            $mail->Body = 'To reset your password click <a href="../resetpassword.php"> HERE </a>';
+            $mail->Body = 'To reset your password click <a href="http://localhost/BookingMedicalWebsite111/resetpassword.php"> HERE </a>';
             if ($mail->send()){
                 header("Location: ../forgot-password.php?msg=email has been sent ");
             }
