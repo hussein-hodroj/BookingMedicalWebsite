@@ -8,7 +8,7 @@ if ($stmt) {
     mysqli_stmt_execute($stmt);
 
     mysqli_stmt_bind_result($stmt, $id, $fullName, $address, $phoneNumber, $email, $certificate);
-
+$count=1;
     $users = array();
     while (mysqli_stmt_fetch($stmt)) {
         $users[] = array(
@@ -296,7 +296,7 @@ if ($stmt) {
                     <tbody>
     <?php foreach ($users as $user) : ?>
         <tr id="row_<?php echo $user['id']; ?>">
-            <th scope="row"><?php echo $user['id']; ?></th>
+            <th scope="row"><?php echo $count++; ?></th>
             <td><?php echo $user['fullName']; ?></td>
             <td><?php echo $user['address']; ?></td>
             <td><?php echo $user['phoneNumber']; ?></td>

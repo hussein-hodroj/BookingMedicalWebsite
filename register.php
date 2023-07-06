@@ -87,9 +87,7 @@ require_once 'connect.php';
                                                 </form>
                          
                             <hr>
-                            <div class="text-center">
-                                <a class="small text-danger" href="forgot-password.php">Forgot Password?</a>
-                            </div>
+                           
                             <div class="text-center">
                                 <a class="small" href="login.php">Already have an account? Login!</a>
                             </div>

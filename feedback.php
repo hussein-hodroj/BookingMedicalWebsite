@@ -12,7 +12,7 @@ $stmt = mysqli_prepare($conn, $sql);
 if ($stmt) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $id, $patient, $doctor, $feedback);
-
+$count=1;
     $feedbacks = array();
     while (mysqli_stmt_fetch($stmt)) {
         $feedbacks[] = array(
@@ -305,13 +305,14 @@ if ($stmt) {
                                 </thead>
                                 <tbody>
                                 <?php foreach ($feedbacks as $feedback) : ?>
+
                                     <tr >
-                                        <th scope="row "style="vertical-align: middle;"><?php echo $feedback['id']?></th>
+                                        <th scope="row "style="vertical-align: middle;"><?php echo $count++?></th>
                                           <td class="text-center " style="vertical-align: middle;"><?php echo $feedback['doctor']?></td>
                                             <td class="text-center " style="vertical-align: middle;"><?php echo $feedback['patient']?></td>
                                             <td class="text-justify " style="width: 350px;"><?php echo $feedback['feedback']?></td>
                                             <td style="vertical-align: middle;">
-                                            <a href="#" title="Delete" class="btn bg-primary text-white" data-bs-toggle="modal"
+                                            <a href="#" title="Delete" class="btn bg-danger text-white" data-bs-toggle="modal"
                                                 data-bs-target="#modalm" data-id="<?php echo $feedback['id']; ?>"><i class="fas fa-trash-alt "></i></a>
             
                                             </td>

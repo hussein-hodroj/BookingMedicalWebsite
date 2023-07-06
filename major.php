@@ -303,7 +303,7 @@ $name = $_SESSION['fullName'];
                                      <td>
                                      <a href="#edit_<?php echo $row["id"] ?>" class="btn bg-primary text-white btnEdit" data-bs-toggle="modal">
                                       <i class="fas fa-edit"></i></a>
-                                     <a href="#delete_<?php echo $row["id"] ?>" title="Delete" class="btn bg-primary text-white btnDelete" data-bs-toggle="modal"><i
+                                     <a href="#delete_<?php echo $row["id"] ?>" title="Delete" class="btn bg-danger text-white btnDelete" data-bs-toggle="modal"><i
                                         class="fas fa-trash-alt"></i></a>
                                      </td>
                                      <div class="modal fade" id="edit_<?php echo $row['id']; ?>"tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">

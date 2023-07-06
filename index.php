@@ -17,22 +17,22 @@
 	<!-- Favicon -->
     <link href="img/logo.png" rel="icon">
 
-    <!-- Google Web Fonts -->
+    
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">  
 
-    <!-- Icon Font Stylesheet -->
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
+   
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
-    <!-- Customized Bootstrap Stylesheet -->
+    
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
+
     <link href="css/style.css" rel="stylesheet">
 
     <script>
@@ -310,7 +310,7 @@
                     <h4 class="d-inline-block text-light text-uppercase border-bottom border-5 border-secondary mb-4">Get In Touch</h4>
                     <!-- <p class="mb-4">Our support team is spread across the glob to give your answers fast.</p> -->
                     <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Lebanon</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>BookMyCare@email.com</p>
+                    <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>medmedresetpass@gmail.com</p>
                     <p class="mb-0"><i class="fa fa-phone-alt text-primary me-3"></i>+961 76753130</p>
                 </div>
                 <div class="col-lg-4 col-md-6 pb-3">

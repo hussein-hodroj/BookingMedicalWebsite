@@ -13,6 +13,7 @@ if (isset($_POST['reset'])) {
         mysqli_stmt_bind_param($stmtUpdate, "i", $id);
         mysqli_stmt_execute($stmtUpdate);
         mysqli_stmt_close($stmtUpdate);
+        header("location:../doctorClinic.php");
     } else {
         echo "Error: " . mysqli_error($conn);
     }

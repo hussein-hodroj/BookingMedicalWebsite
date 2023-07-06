@@ -337,7 +337,7 @@ if ($stmt) {
                     </div>
                     <form id="acceptForm" action="doctor/confirmationbook.php" method="POST">
                     <div class="modal-body">
-                    <label class="form-group">Please specify the reason for rejection*</label>
+                    <label class="form-group">Send a raminder email</label>
                     <textarea class="form-control" id="reminder" name="reminder" aria-label="With textarea"></textarea>
                     </div>
                     <div class="modal-footer">
